@@ -78,33 +78,44 @@ export default function Header() {
       </div>
 
       {isOpen && (
-        <div className="md:hidden bg-emerald-50 border-t border-gray-100">
-          <div className="px-4 py-4 space-y-3">
-            {navLinks.map((link) => (
+        <div className="md:hidden bg-white border-t border-gray-200 shadow-lg">
+          <div className="px-4 py-4">
+            <div className="bg-gray-100 rounded-xl p-1.5 space-y-1">
+              {navLinks.map((link) => {
+                const isActive = pathname === link.href || (link.href !== "/" && pathname.startsWith(link.href))
+                return (
+                  <Link
+                    key={link.href}
+                    href={link.href}
+                    onClick={() => setIsOpen(false)}
+                    className={`block px-4 py-3 rounded-lg font-medium transition-all duration-200 ${
+                      isActive
+                        ? "bg-white text-slate-800 shadow-sm font-semibold"
+                        : "text-slate-600 hover:bg-white/60"
+                    }`}
+                  >
+                    {link.label}
+                  </Link>
+                )
+              })}
+            </div>
+            <hr className="border-gray-200 my-3" />
+            <div className="flex flex-col gap-2">
               <Link
-                key={link.href}
-                href={link.href}
+                href="/login"
                 onClick={() => setIsOpen(false)}
-                className="block px-4 py-3 text-slate-700 font-medium rounded-lg hover:bg-teal-800 hover:text-white transition-colors"
+                className="block px-4 py-3 text-center border border-teal-800 text-teal-800 font-medium rounded-xl hover:bg-teal-800 hover:text-white transition-colors"
               >
-                {link.label}
+                Iniciar Sesión
               </Link>
-            ))}
-            <hr className="border-gray-200" />
-            <Link
-              href="/login"
-              onClick={() => setIsOpen(false)}
-              className="block px-4 py-3 text-center border border-teal-800 text-teal-800 font-medium rounded-lg hover:bg-teal-800 hover:text-white transition-colors"
-            >
-              Iniciar Sesión
-            </Link>
-            <Link
-              href="/contacto"
-              onClick={() => setIsOpen(false)}
-              className="btn-pill w-full justify-center"
-            >
-              Contacto
-            </Link>
+              <Link
+                href="/contacto"
+                onClick={() => setIsOpen(false)}
+                className="btn-pill w-full justify-center"
+              >
+                Contacto
+              </Link>
+            </div>
           </div>
         </div>
       )}
