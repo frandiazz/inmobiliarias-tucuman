@@ -65,7 +65,7 @@ export default function FavoritosPage() {
             </p>
             <Link
               href="/propiedades"
-              className="mt-6 inline-flex items-center px-6 py-3 bg-orange-500 text-white rounded-xl font-semibold hover:bg-orange-600 transition-colors"
+              className="btn-pill"
             >
               Ver propiedades
             </Link>

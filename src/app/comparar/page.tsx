@@ -84,7 +84,7 @@ export default function CompararPage() {
             </p>
             <Link
               href="/propiedades"
-              className="mt-6 inline-flex items-center px-6 py-3 bg-orange-500 text-white rounded-xl font-semibold hover:bg-orange-600 transition-colors"
+              className="btn-pill"
             >
               Explorar propiedades
             </Link>

@@ -276,11 +276,11 @@
 
 /* ── Pill button ── */
 .btn-pill {
-  padding: 1.3em 3em;
-  font-size: 12px;
+  padding: 0.9em 2.2em;
+  font-size: 13px;
   text-transform: uppercase;
-  letter-spacing: 2.5px;
-  font-weight: 500;
+  letter-spacing: 2px;
+  font-weight: 600;
   color: #000;
   background-color: #fff;
   border: none;
@@ -289,6 +289,9 @@
   transition: all 0.3s ease 0s;
   cursor: pointer;
   outline: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5em;
 }
 
 .btn-pill:hover {

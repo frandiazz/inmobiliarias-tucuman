@@ -58,7 +58,7 @@ export default function Header() {
             </Link>
             <Link
               href="/contacto"
-              className="px-4 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600 font-medium text-sm transition-colors"
+              className="btn-pill text-sm px-5 py-2"
             >
               Contacto
             </Link>
@@ -98,7 +98,7 @@ export default function Header() {
             <Link
               href="/contacto"
               onClick={() => setIsOpen(false)}
-              className="block px-4 py-3 text-center bg-orange-500 text-white font-medium rounded-lg hover:bg-orange-600 transition-colors"
+              className="btn-pill w-full justify-center"
             >
               Contacto
             </Link>

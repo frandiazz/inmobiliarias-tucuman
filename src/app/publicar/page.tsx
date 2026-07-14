@@ -67,7 +67,7 @@ export default function PublicarPage() {
             <div className="mt-8 flex flex-col sm:flex-row gap-4">
               <a
                 href="tel:+543815555555"
-                className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-orange-500 hover:bg-orange-600 text-white font-bold rounded-xl text-lg transition-colors shadow-xl"
+                className="btn-pill text-base shadow-xl"
               >
                 Consultanos sin compromiso
                 <ArrowRight className="w-5 h-5" />

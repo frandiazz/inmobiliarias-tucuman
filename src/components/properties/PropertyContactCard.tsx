@@ -51,7 +51,7 @@ export default function ContactCard({ property, whatsapp, email, phone }: Contac
         {email && (
           <a
             href={`mailto:${email}?subject=Consulta: ${property.title}`}
-            className="flex items-center justify-center gap-2 w-full py-3.5 rounded-xl bg-orange-500 hover:bg-orange-600 text-white font-semibold transition-colors"
+            className="btn-pill w-full justify-center"
           >
             <Mail className="w-5 h-5" />
             Enviar Mensaje

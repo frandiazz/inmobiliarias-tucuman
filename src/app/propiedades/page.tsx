@@ -269,7 +269,7 @@ export default async function PropiedadesPage({
         {pageItems.length === 0 ? (
           <div className="text-center py-20">
             <p className="text-xl text-slate-500">No encontramos propiedades con esos filtros</p>
-            <Link href="/propiedades" className="mt-4 inline-flex items-center gap-2 px-6 py-3 bg-orange-500 text-white rounded-xl font-semibold hover:bg-orange-600 transition-colors">
+            <Link href="/propiedades" className="btn-pill">
               Ver todas las propiedades
             </Link>
           </div>

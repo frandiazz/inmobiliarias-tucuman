@@ -101,10 +101,10 @@ export default function Hero({ totalProps, totalAgencies }: HeroProps) {
 
               <button
                 type="submit"
-                className="w-full flex items-center justify-center gap-2 px-6 py-3.5 bg-orange-500 hover:bg-orange-600 text-white font-semibold rounded-xl transition-colors shadow-md"
+                className="btn-pill w-full justify-center shadow-md"
               >
                 <Search className="w-5 h-5" />
-                Buscar Propiedades
+                Buscar
               </button>
             </div>
           </div>
