@@ -5,6 +5,7 @@ import Link from "next/link"
 import { Heart } from "lucide-react"
 import { getFavoriteProperties } from "@/utils/favorites"
 import PropertyCard from "@/components/properties/PropertyCard"
+import AnimatedSection from "@/components/ui/AnimatedSection"
 import Breadcrumbs from "@/components/ui/Breadcrumbs"
 import Loader from "@/components/ui/Loader"
 
@@ -72,8 +73,10 @@ export default function FavoritosPage() {
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
-            {properties.map((p) => (
-              <PropertyCard key={p.id} property={p} isNew={new Date(p.createdAt).getTime() > newCutoff} />
+            {properties.map((p, i) => (
+              <AnimatedSection key={p.id} delay={i * 80}>
+                <PropertyCard property={p} isNew={new Date(p.createdAt).getTime() > newCutoff} />
+              </AnimatedSection>
             ))}
           </div>
         )}

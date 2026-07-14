@@ -216,49 +216,49 @@ export default async function PropiedadesPage({
         {hasFilters && (
           <div className="flex flex-wrap items-center gap-2 mb-6">
             {operacion && (
-              <Link href={buildHref({ operacion: undefined })} className="flex items-center gap-1.5 px-3 py-2 rounded-lg bg-teal-100 text-teal-800 text-sm font-medium hover:bg-teal-200 transition-colors">
+              <Link href={buildHref({ operacion: undefined })} className="flex items-center gap-1.5 px-3 py-2 rounded-lg bg-teal-100 text-teal-800 text-sm font-medium hover:bg-teal-200 transition-colors animate-scale-in">
                 {operacion.charAt(0).toUpperCase() + operacion.slice(1)}
                 <X className="w-3.5 h-3.5" />
               </Link>
             )}
             {tipo && (
-              <Link href={buildHref({ tipo: undefined })} className="flex items-center gap-1.5 px-3 py-2 rounded-lg bg-teal-100 text-teal-800 text-sm font-medium hover:bg-teal-200 transition-colors">
+              <Link href={buildHref({ tipo: undefined })} className="flex items-center gap-1.5 px-3 py-2 rounded-lg bg-teal-100 text-teal-800 text-sm font-medium hover:bg-teal-200 transition-colors animate-scale-in">
                 {tipo.charAt(0).toUpperCase() + tipo.slice(1)}
                 <X className="w-3.5 h-3.5" />
               </Link>
             )}
             {ubicacion && (
-              <Link href={buildHref({ ubicacion: undefined })} className="flex items-center gap-1.5 px-3 py-2 rounded-lg bg-teal-100 text-teal-800 text-sm font-medium hover:bg-teal-200 transition-colors">
+              <Link href={buildHref({ ubicacion: undefined })} className="flex items-center gap-1.5 px-3 py-2 rounded-lg bg-teal-100 text-teal-800 text-sm font-medium hover:bg-teal-200 transition-colors animate-scale-in">
                 {ubicacion.charAt(0).toUpperCase() + ubicacion.slice(1)}
                 <X className="w-3.5 h-3.5" />
               </Link>
             )}
             {precioMin > 0 && (
-              <Link href={buildHref({ precio_min: undefined })} className="flex items-center gap-1.5 px-3 py-2 rounded-lg bg-teal-100 text-teal-800 text-sm font-medium hover:bg-teal-200 transition-colors">
+              <Link href={buildHref({ precio_min: undefined })} className="flex items-center gap-1.5 px-3 py-2 rounded-lg bg-teal-100 text-teal-800 text-sm font-medium hover:bg-teal-200 transition-colors animate-scale-in">
                 Desde USD {precioMin.toLocaleString("es-AR")}
                 <X className="w-3.5 h-3.5" />
               </Link>
             )}
             {precioMax > 0 && (
-              <Link href={buildHref({ precio_max: undefined })} className="flex items-center gap-1.5 px-3 py-2 rounded-lg bg-teal-100 text-teal-800 text-sm font-medium hover:bg-teal-200 transition-colors">
+              <Link href={buildHref({ precio_max: undefined })} className="flex items-center gap-1.5 px-3 py-2 rounded-lg bg-teal-100 text-teal-800 text-sm font-medium hover:bg-teal-200 transition-colors animate-scale-in">
                 Hasta USD {precioMax.toLocaleString("es-AR")}
                 <X className="w-3.5 h-3.5" />
               </Link>
             )}
             {dorm > 0 && (
-              <Link href={buildHref({ dorm: undefined })} className="flex items-center gap-1.5 px-3 py-2 rounded-lg bg-teal-100 text-teal-800 text-sm font-medium hover:bg-teal-200 transition-colors">
+              <Link href={buildHref({ dorm: undefined })} className="flex items-center gap-1.5 px-3 py-2 rounded-lg bg-teal-100 text-teal-800 text-sm font-medium hover:bg-teal-200 transition-colors animate-scale-in">
                 {dorm}+ dorm.
                 <X className="w-3.5 h-3.5" />
               </Link>
             )}
             {banios > 0 && (
-              <Link href={buildHref({ banios: undefined })} className="flex items-center gap-1.5 px-3 py-2 rounded-lg bg-teal-100 text-teal-800 text-sm font-medium hover:bg-teal-200 transition-colors">
+              <Link href={buildHref({ banios: undefined })} className="flex items-center gap-1.5 px-3 py-2 rounded-lg bg-teal-100 text-teal-800 text-sm font-medium hover:bg-teal-200 transition-colors animate-scale-in">
                 {banios}+ baños
                 <X className="w-3.5 h-3.5" />
               </Link>
             )}
             {q && (
-              <Link href={buildHref({ q: undefined })} className="flex items-center gap-1.5 px-3 py-2 rounded-lg bg-teal-100 text-teal-800 text-sm font-medium hover:bg-teal-200 transition-colors">
+              <Link href={buildHref({ q: undefined })} className="flex items-center gap-1.5 px-3 py-2 rounded-lg bg-teal-100 text-teal-800 text-sm font-medium hover:bg-teal-200 transition-colors animate-scale-in">
                 &ldquo;{q}&rdquo;
                 <X className="w-3.5 h-3.5" />
               </Link>
@@ -284,7 +284,7 @@ export default async function PropiedadesPage({
         {totalPages > 1 && (
           <nav className="mt-12 flex items-center justify-center gap-1.5 sm:gap-2 flex-wrap">
             {currentPage > 1 && (
-              <Link href={buildHref({ pagina: String(currentPage - 1) })} className="px-3 sm:px-4 py-2.5 rounded-xl border border-gray-200 bg-white text-slate-700 font-medium text-sm hover:bg-slate-50 transition-colors">
+              <Link href={buildHref({ pagina: String(currentPage - 1) })} className="px-3 sm:px-4 py-2.5 rounded-xl border border-gray-200 bg-white text-slate-700 font-medium text-sm card-hover">
                 Anterior
               </Link>
             )}
@@ -296,10 +296,10 @@ export default async function PropiedadesPage({
                     {idx > 0 && arr[idx - 1] !== p - 1 && <span className="px-1 text-slate-400">&hellip;</span>}
                     <Link
                       href={buildHref({ pagina: String(p) })}
-                      className={`min-w-[2.5rem] h-10 flex items-center justify-center rounded-xl border font-medium text-sm transition-colors ${
+                      className={`min-w-[2.5rem] h-10 flex items-center justify-center rounded-xl border font-medium text-sm transition-colors card-hover ${
                         p === currentPage
                           ? "bg-teal-800 text-white border-teal-800"
-                          : "border-gray-200 bg-white text-slate-700 hover:bg-slate-50"
+                          : "border-gray-200 bg-white text-slate-700"
                       }`}
                     >
                       {p}
@@ -308,7 +308,7 @@ export default async function PropiedadesPage({
                 ))}
             </div>
             {currentPage < totalPages && (
-              <Link href={buildHref({ pagina: String(currentPage + 1) })} className="px-3 sm:px-4 py-2.5 rounded-xl border border-gray-200 bg-white text-slate-700 font-medium text-sm hover:bg-slate-50 transition-colors">
+              <Link href={buildHref({ pagina: String(currentPage + 1) })} className="px-3 sm:px-4 py-2.5 rounded-xl border border-gray-200 bg-white text-slate-700 font-medium text-sm card-hover">
                 Siguiente
               </Link>
             )}

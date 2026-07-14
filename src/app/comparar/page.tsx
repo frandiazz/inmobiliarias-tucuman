@@ -7,6 +7,7 @@ import { Bed, Bath, Ruler, ArrowLeft, Trash2, BarChart3 } from "lucide-react"
 import { getCompareProperties } from "@/utils/compare"
 import type { Property } from "@/utils/types"
 import { useCompare } from "@/utils/compare"
+import AnimatedSection from "@/components/ui/AnimatedSection"
 import Breadcrumbs from "@/components/ui/Breadcrumbs"
 import Loader from "@/components/ui/Loader"
 
@@ -90,7 +91,8 @@ export default function CompararPage() {
             </Link>
           </div>
         ) : (
-          <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-x-auto">
+          <AnimatedSection>
+            <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-x-auto">
             <div className="min-w-[600px] p-6">
               <div className="grid grid-cols-[140px_repeat(auto-fit,minmax(0,1fr))] gap-4 mb-6">
                 <div />
@@ -189,6 +191,7 @@ export default function CompararPage() {
               </CompareRow>
             </div>
           </div>
+          </AnimatedSection>
         )}
       </div>
     </main>

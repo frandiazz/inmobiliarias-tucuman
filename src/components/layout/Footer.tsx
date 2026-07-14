@@ -33,7 +33,7 @@ export default function Footer() {
                 { label: "En Alquiler", href: "/propiedades?operacion=alquiler" },
               ].map((link) => (
                 <li key={link.label}>
-                  <Link href={link.href} className="hover:text-white transition-colors">
+                  <Link href={link.href} className="hover:text-white transition-colors link-underline">
                     {link.label}
                   </Link>
                 </li>
@@ -49,7 +49,7 @@ export default function Footer() {
                   <li key={zona}>
                     <Link
                       href={`/propiedades?ubicacion=${encodeURIComponent(zona.toLowerCase())}`}
-                      className="hover:text-white transition-colors"
+                      className="hover:text-white transition-colors link-underline"
                     >
                       {zona}
                     </Link>

@@ -14,7 +14,7 @@ export default function AgencyCard({ name, count }: AgencyCardProps) {
     .join("")
 
   return (
-    <div className="bg-white rounded-2xl border border-gray-100 shadow-md hover:shadow-lg transition-shadow p-6 flex flex-col items-center text-center">
+    <div className="bg-white rounded-2xl border border-gray-100 shadow-md card-hover p-6 flex flex-col items-center text-center">
       <div className="w-20 h-20 rounded-full bg-teal-100 flex items-center justify-center">
         <span className="text-2xl font-bold text-teal-800">{initials}</span>
       </div>

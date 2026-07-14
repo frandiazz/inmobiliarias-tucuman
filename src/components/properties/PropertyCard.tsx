@@ -12,8 +12,8 @@ interface PropertyCardProps {
 
 export default function PropertyCard({ property, isNew }: PropertyCardProps) {
   return (
-    <article className="bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-shadow duration-300 flex flex-col">
-      <Link href={`/propiedades/${property.id}`} className="relative h-56 block">
+    <article className="bg-white rounded-2xl overflow-hidden shadow-md card-hover flex flex-col">
+      <Link href={`/propiedades/${property.id}`} className="relative h-56 block img-zoom">
         <Image
           src={property.image}
           alt={property.title}
@@ -29,7 +29,7 @@ export default function PropertyCard({ property, isNew }: PropertyCardProps) {
           {property.operation}
         </span>
         {isNew && (
-          <span className="absolute top-3 right-14 px-2.5 py-1 rounded-lg text-xs font-semibold bg-green-500 text-white">
+          <span className="absolute top-3 right-14 px-2.5 py-1 rounded-lg text-xs font-semibold bg-teal-600 text-white animate-pulse-dot">
             Nuevo
           </span>
         )}

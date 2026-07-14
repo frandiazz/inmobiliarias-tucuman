@@ -39,14 +39,14 @@ export default function Hero({ totalProps, totalAgencies }: HeroProps) {
       <div className="absolute inset-0 bg-black/55" />
 
       <div className="relative z-10 w-full max-w-6xl mx-auto px-4 flex flex-col items-center text-center">
-        <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-tight">
+        <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-tight animate-fade-in-up">
           Encontrá tu lugar en Tucumán
         </h1>
-        <p className="mt-4 text-lg md:text-xl text-white/80 max-w-xl">
+        <p className="mt-4 text-lg md:text-xl text-white/80 max-w-xl animate-fade-in-up" style={{ animationDelay: "0.15s" }}>
           El portal inmobiliario N°1 de la provincia
         </p>
 
-        <div className="mt-6 flex flex-wrap items-center justify-center gap-6 text-white/70 text-sm">
+        <div className="mt-6 flex flex-wrap items-center justify-center gap-6 text-white/70 text-sm animate-fade-in-up" style={{ animationDelay: "0.3s" }}>
           <span className="flex items-center gap-1.5">
             <Home className="w-4 h-4" />
             {totalProps.toLocaleString("es-AR")}+ propiedades

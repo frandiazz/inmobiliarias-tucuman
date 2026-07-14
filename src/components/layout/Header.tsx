@@ -44,7 +44,7 @@ export default function Header() {
               <Link
                 key={link.href}
                 href={link.href}
-                className={`text-sm font-medium transition-colors ${
+                className={`text-sm font-medium link-underline ${
                   pathname === link.href || (link.href !== "/" && pathname.startsWith(link.href))
                     ? "text-teal-800 font-semibold"
                     : "text-slate-600 hover:text-teal-800"
