@@ -29,7 +29,7 @@ export default function PropertyCard({ property, isNew }: PropertyCardProps) {
           {property.operation}
         </span>
         {isNew && (
-          <span className="absolute top-3 left-20 px-2.5 py-1 rounded-lg text-xs font-semibold bg-green-500 text-white">
+          <span className="absolute top-3 right-14 px-2.5 py-1 rounded-lg text-xs font-semibold bg-green-500 text-white">
             Nuevo
           </span>
         )}
@@ -49,27 +49,27 @@ export default function PropertyCard({ property, isNew }: PropertyCardProps) {
           {property.title}
         </h3>
 
-        <div className="mt-3 flex items-center gap-4 text-sm text-slate-500">
-          <span className="flex items-center gap-1.5">
-            <Bed className="w-4 h-4" /> {property.beds} Dorm
+        <div className="mt-3 flex items-center gap-3 text-sm text-slate-500 flex-wrap">
+          <span className="flex items-center gap-1">
+            <Bed className="w-4 h-4 shrink-0" /> {property.beds} Dorm
           </span>
-          <span className="flex items-center gap-1.5">
-            <Bath className="w-4 h-4" /> {property.baths} Baños
+          <span className="flex items-center gap-1">
+            <Bath className="w-4 h-4 shrink-0" /> {property.baths} Baños
           </span>
-          <span className="flex items-center gap-1.5">
-            <Ruler className="w-4 h-4" /> {property.area}m²
+          <span className="flex items-center gap-1">
+            <Ruler className="w-4 h-4 shrink-0" /> {property.area}m²
           </span>
         </div>
 
         <div className="mt-auto pt-4">
           <hr className="border-gray-100 mb-4" />
-          <div className="flex items-center justify-between">
-            <span className="text-sm font-medium text-slate-600">
+          <div className="flex items-center justify-between gap-2 flex-wrap">
+            <span className="text-sm font-medium text-slate-600 truncate min-w-0">
               {property.agency}
             </span>
             <Link
               href={`/propiedades/${property.id}`}
-              className="flex items-center gap-1 text-sm font-semibold text-orange-500 hover:text-orange-600 transition-colors"
+              className="flex items-center gap-1 text-sm font-semibold text-orange-500 hover:text-orange-600 transition-colors shrink-0"
             >
               Ver detalles
               <ArrowRight className="w-4 h-4" />

@@ -89,11 +89,11 @@ export default function Footer() {
                 <input
                   type="email"
                   placeholder="tu@email.com"
-                  className="flex-1 px-3 py-2 rounded-xl bg-slate-800 border border-slate-700 text-white text-sm placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-teal-500"
+                  className="flex-1 px-4 py-3 rounded-xl bg-slate-800 border border-slate-700 text-white text-sm placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-teal-500"
                 />
                 <button
                   type="submit"
-                  className="p-2 rounded-xl bg-orange-500 hover:bg-orange-600 text-white transition-colors"
+                  className="p-3 rounded-xl bg-orange-500 hover:bg-orange-600 text-white transition-colors"
                 >
                   <ArrowRight className="w-4 h-4" />
                 </button>

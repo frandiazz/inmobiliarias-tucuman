@@ -143,12 +143,12 @@ export default async function PropiedadesPage({
           </Link>
         </div>
 
-        <details className="mb-6 bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
-          <summary className="flex items-center gap-2 px-6 py-4 cursor-pointer text-sm font-semibold text-slate-700 hover:bg-slate-50 transition-colors">
-            <ArrowUpDown className="w-4 h-4" />
-            Filtros avanzados
-          </summary>
-          <form method="GET" action="/propiedades" className="px-6 pb-6 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+          <details className="mb-6 bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
+            <summary className="flex items-center gap-2 px-4 sm:px-6 py-4 cursor-pointer text-sm font-semibold text-slate-700 hover:bg-slate-50 transition-colors">
+              <ArrowUpDown className="w-4 h-4" />
+              Filtros avanzados
+            </summary>
+            <form method="GET" action="/propiedades" className="px-4 sm:px-6 pb-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-4">
             <input type="hidden" name="operacion" value={operacion} />
             <input type="hidden" name="tipo" value={tipo} />
             <input type="hidden" name="ubicacion" value={ubicacion} />
@@ -202,11 +202,11 @@ export default async function PropiedadesPage({
                 <option value="precio_desc">Mayor precio</option>
               </select>
             </div>
-            <div className="col-span-full flex items-center gap-3 pt-2">
-              <button type="submit" className="px-6 py-2.5 bg-teal-800 text-white text-sm font-semibold rounded-xl hover:bg-teal-900 transition-colors">
+            <div className="col-span-full flex flex-col sm:flex-row items-stretch sm:items-center gap-3 pt-2">
+              <button type="submit" className="px-6 py-3 bg-teal-800 text-white text-sm font-semibold rounded-xl hover:bg-teal-900 transition-colors">
                 Aplicar filtros
               </button>
-              <Link href={buildHref({ precio_min: undefined, precio_max: undefined, dorm: undefined, banios: undefined, orden: undefined })} className="text-sm text-slate-500 hover:text-slate-700 transition-colors">
+              <Link href={buildHref({ precio_min: undefined, precio_max: undefined, dorm: undefined, banios: undefined, orden: undefined })} className="text-sm text-slate-500 hover:text-slate-700 transition-colors py-2 text-center">
                 Restablecer
               </Link>
             </div>
@@ -216,49 +216,49 @@ export default async function PropiedadesPage({
         {hasFilters && (
           <div className="flex flex-wrap items-center gap-2 mb-6">
             {operacion && (
-              <Link href={buildHref({ operacion: undefined })} className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-teal-100 text-teal-800 text-sm font-medium hover:bg-teal-200 transition-colors">
+              <Link href={buildHref({ operacion: undefined })} className="flex items-center gap-1.5 px-3 py-2 rounded-lg bg-teal-100 text-teal-800 text-sm font-medium hover:bg-teal-200 transition-colors">
                 {operacion.charAt(0).toUpperCase() + operacion.slice(1)}
                 <X className="w-3.5 h-3.5" />
               </Link>
             )}
             {tipo && (
-              <Link href={buildHref({ tipo: undefined })} className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-teal-100 text-teal-800 text-sm font-medium hover:bg-teal-200 transition-colors">
+              <Link href={buildHref({ tipo: undefined })} className="flex items-center gap-1.5 px-3 py-2 rounded-lg bg-teal-100 text-teal-800 text-sm font-medium hover:bg-teal-200 transition-colors">
                 {tipo.charAt(0).toUpperCase() + tipo.slice(1)}
                 <X className="w-3.5 h-3.5" />
               </Link>
             )}
             {ubicacion && (
-              <Link href={buildHref({ ubicacion: undefined })} className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-teal-100 text-teal-800 text-sm font-medium hover:bg-teal-200 transition-colors">
+              <Link href={buildHref({ ubicacion: undefined })} className="flex items-center gap-1.5 px-3 py-2 rounded-lg bg-teal-100 text-teal-800 text-sm font-medium hover:bg-teal-200 transition-colors">
                 {ubicacion.charAt(0).toUpperCase() + ubicacion.slice(1)}
                 <X className="w-3.5 h-3.5" />
               </Link>
             )}
             {precioMin > 0 && (
-              <Link href={buildHref({ precio_min: undefined })} className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-teal-100 text-teal-800 text-sm font-medium hover:bg-teal-200 transition-colors">
+              <Link href={buildHref({ precio_min: undefined })} className="flex items-center gap-1.5 px-3 py-2 rounded-lg bg-teal-100 text-teal-800 text-sm font-medium hover:bg-teal-200 transition-colors">
                 Desde USD {precioMin.toLocaleString("es-AR")}
                 <X className="w-3.5 h-3.5" />
               </Link>
             )}
             {precioMax > 0 && (
-              <Link href={buildHref({ precio_max: undefined })} className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-teal-100 text-teal-800 text-sm font-medium hover:bg-teal-200 transition-colors">
+              <Link href={buildHref({ precio_max: undefined })} className="flex items-center gap-1.5 px-3 py-2 rounded-lg bg-teal-100 text-teal-800 text-sm font-medium hover:bg-teal-200 transition-colors">
                 Hasta USD {precioMax.toLocaleString("es-AR")}
                 <X className="w-3.5 h-3.5" />
               </Link>
             )}
             {dorm > 0 && (
-              <Link href={buildHref({ dorm: undefined })} className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-teal-100 text-teal-800 text-sm font-medium hover:bg-teal-200 transition-colors">
+              <Link href={buildHref({ dorm: undefined })} className="flex items-center gap-1.5 px-3 py-2 rounded-lg bg-teal-100 text-teal-800 text-sm font-medium hover:bg-teal-200 transition-colors">
                 {dorm}+ dorm.
                 <X className="w-3.5 h-3.5" />
               </Link>
             )}
             {banios > 0 && (
-              <Link href={buildHref({ banios: undefined })} className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-teal-100 text-teal-800 text-sm font-medium hover:bg-teal-200 transition-colors">
+              <Link href={buildHref({ banios: undefined })} className="flex items-center gap-1.5 px-3 py-2 rounded-lg bg-teal-100 text-teal-800 text-sm font-medium hover:bg-teal-200 transition-colors">
                 {banios}+ baños
                 <X className="w-3.5 h-3.5" />
               </Link>
             )}
             {q && (
-              <Link href={buildHref({ q: undefined })} className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-teal-100 text-teal-800 text-sm font-medium hover:bg-teal-200 transition-colors">
+              <Link href={buildHref({ q: undefined })} className="flex items-center gap-1.5 px-3 py-2 rounded-lg bg-teal-100 text-teal-800 text-sm font-medium hover:bg-teal-200 transition-colors">
                 &ldquo;{q}&rdquo;
                 <X className="w-3.5 h-3.5" />
               </Link>
@@ -282,31 +282,33 @@ export default async function PropiedadesPage({
         )}
 
         {totalPages > 1 && (
-          <nav className="mt-12 flex items-center justify-center gap-2">
+          <nav className="mt-12 flex items-center justify-center gap-1.5 sm:gap-2 flex-wrap">
             {currentPage > 1 && (
-              <Link href={buildHref({ pagina: String(currentPage - 1) })} className="px-4 py-2 rounded-xl border border-gray-200 bg-white text-slate-700 font-medium hover:bg-slate-50 transition-colors">
+              <Link href={buildHref({ pagina: String(currentPage - 1) })} className="px-3 sm:px-4 py-2.5 rounded-xl border border-gray-200 bg-white text-slate-700 font-medium text-sm hover:bg-slate-50 transition-colors">
                 Anterior
               </Link>
             )}
-            {Array.from({ length: totalPages }, (_, i) => i + 1)
-              .filter((p) => p === 1 || p === totalPages || Math.abs(p - currentPage) <= 2)
-              .map((p, idx, arr) => (
-                <span key={p}>
-                  {idx > 0 && arr[idx - 1] !== p - 1 && <span className="px-2 text-slate-400">&hellip;</span>}
-                  <Link
-                    href={buildHref({ pagina: String(p) })}
-                    className={`px-4 py-2 rounded-xl border font-medium transition-colors ${
-                      p === currentPage
-                        ? "bg-teal-800 text-white border-teal-800"
-                        : "border-gray-200 bg-white text-slate-700 hover:bg-slate-50"
-                    }`}
-                  >
-                    {p}
-                  </Link>
-                </span>
-              ))}
+            <div className="flex items-center gap-1 sm:gap-1.5">
+              {Array.from({ length: totalPages }, (_, i) => i + 1)
+                .filter((p) => p === 1 || p === totalPages || Math.abs(p - currentPage) <= 2)
+                .map((p, idx, arr) => (
+                  <span key={p} className="contents">
+                    {idx > 0 && arr[idx - 1] !== p - 1 && <span className="px-1 text-slate-400">&hellip;</span>}
+                    <Link
+                      href={buildHref({ pagina: String(p) })}
+                      className={`min-w-[2.5rem] h-10 flex items-center justify-center rounded-xl border font-medium text-sm transition-colors ${
+                        p === currentPage
+                          ? "bg-teal-800 text-white border-teal-800"
+                          : "border-gray-200 bg-white text-slate-700 hover:bg-slate-50"
+                      }`}
+                    >
+                      {p}
+                    </Link>
+                  </span>
+                ))}
+            </div>
             {currentPage < totalPages && (
-              <Link href={buildHref({ pagina: String(currentPage + 1) })} className="px-4 py-2 rounded-xl border border-gray-200 bg-white text-slate-700 font-medium hover:bg-slate-50 transition-colors">
+              <Link href={buildHref({ pagina: String(currentPage + 1) })} className="px-3 sm:px-4 py-2.5 rounded-xl border border-gray-200 bg-white text-slate-700 font-medium text-sm hover:bg-slate-50 transition-colors">
                 Siguiente
               </Link>
             )}

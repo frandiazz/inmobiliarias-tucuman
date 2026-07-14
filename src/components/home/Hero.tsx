@@ -24,7 +24,7 @@ export default function Hero({ totalProps, totalAgencies }: HeroProps) {
   }
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+    <section className="relative min-h-[90vh] md:min-h-screen flex items-center justify-center overflow-hidden">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
@@ -39,7 +39,7 @@ export default function Hero({ totalProps, totalAgencies }: HeroProps) {
       <div className="absolute inset-0 bg-black/55" />
 
       <div className="relative z-10 w-full max-w-6xl mx-auto px-4 flex flex-col items-center text-center">
-        <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-tight">
+        <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-tight">
           Encontrá tu lugar en Tucumán
         </h1>
         <p className="mt-4 text-lg md:text-xl text-white/80 max-w-xl">

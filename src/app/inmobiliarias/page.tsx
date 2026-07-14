@@ -22,10 +22,10 @@ export default async function InmobiliariasPage() {
 
   return (
     <main>
-      <section className="relative py-20 md:py-28 bg-gradient-to-r from-teal-800 to-teal-700 overflow-hidden">
+      <section className="relative py-16 md:py-28 bg-gradient-to-r from-teal-800 to-teal-700 overflow-hidden">
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white leading-tight">
-            Las mejores agencias de Tucumán<br />
+          <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white leading-tight">
+            Las mejores agencias de Tucumán{" "}
             <span className="text-orange-400">confían en nosotros</span>
           </h1>
           <p className="mt-4 text-lg text-white/80 max-w-xl mx-auto">

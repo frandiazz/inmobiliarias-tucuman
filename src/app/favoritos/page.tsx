@@ -37,9 +37,9 @@ export default function FavoritosPage() {
             { label: "Favoritos" },
           ]}
         />
-        <div className="flex items-center justify-between mb-8">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-8">
           <div>
-            <h1 className="text-3xl font-bold text-slate-800">Mis favoritos</h1>
+            <h1 className="text-2xl sm:text-3xl font-bold text-slate-800">Mis favoritos</h1>
             <p className="mt-1 text-slate-500">
               {properties.length} {properties.length === 1 ? "propiedad guardada" : "propiedades guardadas"}
             </p>
