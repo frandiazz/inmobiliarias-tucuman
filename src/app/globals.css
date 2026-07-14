@@ -168,8 +168,7 @@
   width: 100%;
   height: 100%;
   opacity: 0;
-  z-index: 20;
-  cursor: pointer;
+  pointer-events: none;
 }
 
 .heart-btn .checkmark {
