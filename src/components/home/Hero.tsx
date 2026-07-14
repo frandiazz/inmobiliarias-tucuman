@@ -1,6 +1,10 @@
 import { Search, Building2, Home } from "lucide-react"
+import RadioTabs from "@/components/ui/RadioTabs"
 
-const operaciones = ["Venta", "Alquiler"]
+const operaciones = [
+  { value: "venta", label: "Venta" },
+  { value: "alquiler", label: "Alquiler" },
+]
 const tipos = ["Casa", "Departamento", "Dúplex", "Terreno"]
 const ubicaciones = ["Yerba Buena", "Barrio Norte", "Barrio Sur", "Tafí Viejo", "El Corte", "Lomas de Tafí", "San Pablo"]
 
@@ -59,20 +63,10 @@ export default function Hero({ totalProps, totalAgencies }: HeroProps) {
           className="mt-8 w-full max-w-5xl bg-white rounded-2xl shadow-lg p-4 md:p-6"
         >
           <div className="flex flex-col gap-3">
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-3">
-              <select
-                name="operacion"
-                defaultValue=""
-                className="w-full px-4 py-3.5 rounded-xl border border-gray-200 bg-white text-slate-700 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent cursor-pointer appearance-none"
-              >
-                <option value="">Operación</option>
-                {operaciones.map((op) => (
-                  <option key={op} value={op.toLowerCase()}>
-                    {op}
-                  </option>
-                ))}
-              </select>
-
+            <div className="flex justify-center">
+              <RadioTabs name="operacion" options={operaciones} />
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
               <select
                 name="tipo"
                 defaultValue=""
