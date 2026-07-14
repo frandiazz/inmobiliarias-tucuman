@@ -39,16 +39,19 @@ export default function Header() {
             <span>Tucumán Inmuebles</span>
           </Link>
 
-          <nav className="hidden md:flex nav-tabs">
+          <nav className="hidden md:flex items-center gap-6">
             {navLinks.map((link) => (
-              <span key={link.href} className="nav-tab">
-                <Link
-                  href={link.href}
-                  className={`${pathname === link.href || (link.href !== "/" && pathname.startsWith(link.href)) ? "active" : ""}`}
-                >
-                  {link.label}
-                </Link>
-              </span>
+              <Link
+                key={link.href}
+                href={link.href}
+                className={`text-sm font-medium transition-colors ${
+                  pathname === link.href || (link.href !== "/" && pathname.startsWith(link.href))
+                    ? "text-teal-800 font-semibold"
+                    : "text-slate-600 hover:text-teal-800"
+                }`}
+              >
+                {link.label}
+              </Link>
             ))}
           </nav>
 
