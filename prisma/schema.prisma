@@ -1,0 +1,60 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Agency {
+  id          Int         @id @default(autoincrement())
+  name        String      @unique
+  phone       String
+  whatsapp    String
+  email       String
+  description String
+  userId      String?     @map("user_id")
+  createdAt   DateTime    @default(now()) @map("created_at")
+  properties  Property[]
+
+  @@map("agencies")
+}
+
+model Property {
+  id          Int      @id @default(autoincrement())
+  agencyId    Int      @map("agency_id")
+  image       String
+  images      String[]
+  operation   String
+  price       String
+  title       String
+  beds        Int
+  baths       Int
+  area        Float
+  agencyName  String   @map("agency_name")
+  createdAt   DateTime @default(now()) @map("created_at")
+  zona        String
+  tipo        String
+  description String?
+  latitude    Float?
+  longitude   Float?
+  published   Boolean  @default(true)
+  agency      Agency   @relation(fields: [agencyId], references: [id], onDelete: Cascade)
+  leads       Lead[]
+
+  @@map("properties")
+}
+
+model Lead {
+  id          Int      @id @default(autoincrement())
+  propertyId  Int      @map("property_id")
+  name        String
+  phone       String
+  email       String?
+  message     String?
+  createdAt   DateTime @default(now()) @map("created_at")
+  property    Property @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+
+  @@map("leads")
+}

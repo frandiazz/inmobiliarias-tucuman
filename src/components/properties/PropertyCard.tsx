@@ -1,0 +1,82 @@
+import Image from "next/image"
+import Link from "next/link"
+import { Bed, Bath, Ruler, ArrowRight } from "lucide-react"
+import type { Property } from "./types"
+import FavoriteButton from "./FavoriteButton"
+import CompareCheckbox from "./CompareCheckbox"
+
+interface PropertyCardProps {
+  property: Property
+  isNew?: boolean
+}
+
+export default function PropertyCard({ property, isNew }: PropertyCardProps) {
+  return (
+    <article className="bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-shadow duration-300 flex flex-col">
+      <Link href={`/propiedades/${property.id}`} className="relative h-56 block">
+        <Image
+          src={property.image}
+          alt={property.title}
+          fill
+          className="object-cover"
+          sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+        />
+        <span
+          className={`absolute top-3 left-3 px-3 py-1 rounded-lg text-xs font-semibold text-white ${
+            property.operation === "Venta" ? "bg-teal-800" : "bg-orange-500"
+          }`}
+        >
+          {property.operation}
+        </span>
+        {isNew && (
+          <span className="absolute top-3 left-20 px-2.5 py-1 rounded-lg text-xs font-semibold bg-green-500 text-white">
+            Nuevo
+          </span>
+        )}
+        <FavoriteButton
+          propertyId={property.id}
+          className="absolute top-3 right-3"
+        />
+      </Link>
+
+      <div className="flex flex-col flex-1 p-5">
+        <div className="flex items-center justify-between mb-1">
+          <span className="text-xs text-slate-400">ID #{property.id}</span>
+          <CompareCheckbox propertyId={property.id} />
+        </div>
+        <p className="text-2xl font-bold text-teal-800">{property.price}</p>
+        <h3 className="mt-1 text-base font-semibold text-slate-800 leading-snug">
+          {property.title}
+        </h3>
+
+        <div className="mt-3 flex items-center gap-4 text-sm text-slate-500">
+          <span className="flex items-center gap-1.5">
+            <Bed className="w-4 h-4" /> {property.beds} Dorm
+          </span>
+          <span className="flex items-center gap-1.5">
+            <Bath className="w-4 h-4" /> {property.baths} Baños
+          </span>
+          <span className="flex items-center gap-1.5">
+            <Ruler className="w-4 h-4" /> {property.area}m²
+          </span>
+        </div>
+
+        <div className="mt-auto pt-4">
+          <hr className="border-gray-100 mb-4" />
+          <div className="flex items-center justify-between">
+            <span className="text-sm font-medium text-slate-600">
+              {property.agency}
+            </span>
+            <Link
+              href={`/propiedades/${property.id}`}
+              className="flex items-center gap-1 text-sm font-semibold text-orange-500 hover:text-orange-600 transition-colors"
+            >
+              Ver detalles
+              <ArrowRight className="w-4 h-4" />
+            </Link>
+          </div>
+        </div>
+      </div>
+    </article>
+  )
+}
