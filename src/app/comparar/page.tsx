@@ -8,6 +8,7 @@ import { getCompareProperties } from "@/utils/compare"
 import type { Property } from "@/utils/types"
 import { useCompare } from "@/utils/compare"
 import Breadcrumbs from "@/components/ui/Breadcrumbs"
+import Loader from "@/components/ui/Loader"
 
 function CompareRow({ label, children }: { label: string; children: React.ReactNode }) {
   return (
@@ -43,7 +44,7 @@ export default function CompararPage() {
     setProperties((prev) => prev.filter((p) => p.id !== id))
   }
 
-  if (loading) return null
+  if (loading) return <Loader className="min-h-screen" />
 
   return (
     <main className="min-h-screen bg-slate-50">

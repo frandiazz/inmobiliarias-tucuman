@@ -6,6 +6,7 @@ import { Heart } from "lucide-react"
 import { getFavoriteProperties } from "@/utils/favorites"
 import PropertyCard from "@/components/properties/PropertyCard"
 import Breadcrumbs from "@/components/ui/Breadcrumbs"
+import Loader from "@/components/ui/Loader"
 
 function getCutoff() {
   return Date.now() - 7 * 24 * 60 * 60 * 1000
@@ -25,6 +26,8 @@ export default function FavoritosPage() {
       })
   }, [])
 
+  if (loading) return <Loader className="min-h-screen" />
+
   return (
     <main className="min-h-screen bg-slate-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
@@ -38,9 +41,7 @@ export default function FavoritosPage() {
           <div>
             <h1 className="text-3xl font-bold text-slate-800">Mis favoritos</h1>
             <p className="mt-1 text-slate-500">
-              {!loading
-                ? `${properties.length} ${properties.length === 1 ? "propiedad guardada" : "propiedades guardadas"}`
-                : "Cargando..."}
+              {properties.length} {properties.length === 1 ? "propiedad guardada" : "propiedades guardadas"}
             </p>
           </div>
           {properties.length > 0 && (

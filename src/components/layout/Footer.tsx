@@ -2,6 +2,7 @@
 
 import Link from "next/link"
 import { Mountain, Mail, Phone, MapPin, ArrowRight } from "lucide-react"
+import SocialButtons from "@/components/ui/SocialButtons"
 
 export default function Footer() {
   return (
@@ -17,20 +18,7 @@ export default function Footer() {
               El portal inmobiliario que conecta a las mejores agencias de Tucumán
               con quienes buscan su próximo hogar.
             </p>
-            <div className="mt-5 flex items-center gap-3">
-              {["facebook", "instagram", "linkedin", "twitter"].map((social) => (
-                <a
-                  key={social}
-                  href={`https://${social}.com`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-9 h-9 rounded-full bg-slate-800 hover:bg-teal-700 flex items-center justify-center transition-colors"
-                  aria-label={social}
-                >
-                  <span className="text-xs font-bold text-white uppercase">{social[0]}</span>
-                </a>
-              ))}
-            </div>
+            <SocialButtons />
           </div>
 
           <div>
