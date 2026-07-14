@@ -30,20 +30,20 @@ export default function Hero({ totalProps, totalAgencies }: HeroProps) {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
       <div
-        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+        className="absolute inset-0 bg-cover bg-center bg-no-repeat md:bg-fixed"
         style={{
           backgroundImage:
             "url(https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?q=80&w=2075&auto=format&fit=crop)",
         }}
       />
-      <div className="absolute inset-0 bg-black/55" />
+      <div className="absolute inset-0 animate-gradient-shift" style={{ background: "linear-gradient(135deg, rgba(0,0,0,0.65) 0%, rgba(15,118,110,0.55) 50%, rgba(0,0,0,0.65) 100%)" }} />
 
       <div className="relative z-10 w-full max-w-6xl mx-auto px-4 flex flex-col items-center text-center">
         <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-tight animate-fade-in-up">
           Encontrá tu lugar en Tucumán
         </h1>
-        <p className="mt-4 text-lg md:text-xl text-white/80 max-w-xl animate-fade-in-up" style={{ animationDelay: "0.15s" }}>
-          El portal inmobiliario N°1 de la provincia
+        <p className="mt-4 text-lg md:text-xl text-white/80 max-w-xl">
+          <span className="animate-typewriter">El portal inmobiliario N°1 de la provincia</span>
         </p>
 
         <div className="mt-6 flex flex-wrap items-center justify-center gap-6 text-white/70 text-sm animate-fade-in-up" style={{ animationDelay: "0.3s" }}>

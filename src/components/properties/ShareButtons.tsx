@@ -1,6 +1,8 @@
 "use client"
 
-import { useState } from "react"
+"use client"
+
+import { useToast } from "@/components/ui/ToastProvider"
 
 interface ShareButtonsProps {
   shareUrl: string
@@ -8,7 +10,7 @@ interface ShareButtonsProps {
 }
 
 export default function ShareButtons({ shareUrl, shareText }: ShareButtonsProps) {
-  const [copied, setCopied] = useState(false)
+  const { toast } = useToast()
 
   return (
     <div className="flex items-center gap-3 flex-wrap">
@@ -26,12 +28,11 @@ export default function ShareButtons({ shareUrl, shareText }: ShareButtonsProps)
       <button
         onClick={() => {
           navigator.clipboard.writeText(shareUrl)
-          setCopied(true)
-          setTimeout(() => setCopied(false), 2000)
+          toast("Enlace copiado al portapapeles", "success")
         }}
         className="btn-pill"
       >
-        {copied ? "✓ Copiado" : "Copiar enlace"}
+        Copiar enlace
       </button>
     </div>
   )

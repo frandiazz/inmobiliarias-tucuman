@@ -84,7 +84,7 @@ export default function PublicarPage() {
         </div>
       </section>
 
-      <section className="py-20 bg-slate-50">
+      <section className="py-20 bg-slate-50 reveal-on-scroll">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="text-3xl md:text-4xl font-bold text-slate-800 text-center">
             ¿Por qué publicar con nosotros?
@@ -100,7 +100,7 @@ export default function PublicarPage() {
         </div>
       </section>
 
-      <section className="py-16 bg-white border-y border-gray-100">
+      <section className="py-16 bg-white border-y border-gray-100 reveal-on-scroll">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <p className="text-center text-sm font-semibold text-slate-400 uppercase tracking-wider mb-8">
             Ya forman parte del portal
@@ -121,7 +121,7 @@ export default function PublicarPage() {
         </div>
       </section>
 
-      <section className="py-20 bg-slate-900 text-center">
+      <section className="py-20 bg-slate-900 text-center reveal-on-scroll">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="text-3xl font-bold text-white">¿Querés sumar tu inmobiliaria?</h2>
           <p className="mt-3 text-slate-400 max-w-lg mx-auto">

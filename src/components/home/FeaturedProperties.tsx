@@ -7,7 +7,7 @@ const newCutoff = Date.now() - 7 * 24 * 60 * 60 * 1000
 export default async function FeaturedProperties() {
   const latest = await getLatestProperties(6)
   return (
-    <section className="py-16 md:py-24 bg-teal-50">
+    <section className="py-16 md:py-24 bg-teal-50 reveal-on-scroll">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <AnimatedSection>
           <h2 className="text-3xl md:text-4xl font-bold text-slate-800">
