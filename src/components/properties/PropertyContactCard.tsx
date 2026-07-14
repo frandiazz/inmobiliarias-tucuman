@@ -1,4 +1,4 @@
-import { MessageCircle, Mail, Building2 } from "lucide-react"
+import { Mail, Building2 } from "lucide-react"
 import type { Property } from "./types"
 
 interface ContactCardProps {
@@ -36,11 +36,16 @@ export default function ContactCard({ property, whatsapp, email, phone }: Contac
           href={`https://wa.me/${whatsappNumber}?text=${whatsappMsg}`}
           target="_blank"
           rel="noopener noreferrer"
-          className="flex items-center justify-center gap-2 w-full py-3.5 rounded-xl text-white font-semibold transition-colors hover:opacity-90"
-          style={{ backgroundColor: "#25D366" }}
+          className="btn-send w-full"
+          style={{ backgroundColor: "#25D366", color: "white" }}
         >
-          <MessageCircle className="w-5 h-5" />
-          Contactar por WhatsApp
+          <div className="svg-wrapper">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width={24} height={24}>
+              <path fill="none" d="M0 0h24v24H0z" />
+              <path fill="currentColor" d="M1.946 9.315c-.522-.174-.527-.455.01-.634l19.087-6.362c.529-.176.832.12.684.638l-5.454 19.086c-.15.529-.455.547-.679.045L12 14l6-8-8 6-8.054-2.685z" />
+            </svg>
+          </div>
+          <span>WhatsApp</span>
         </a>
 
         {email && (

@@ -1,7 +1,6 @@
 "use client"
 
 import { useState } from "react"
-import { Share2, Check } from "lucide-react"
 
 interface ShareButtonsProps {
   shareUrl: string
@@ -12,14 +11,16 @@ export default function ShareButtons({ shareUrl, shareText }: ShareButtonsProps)
   const [copied, setCopied] = useState(false)
 
   return (
-    <div className="flex items-center gap-3">
+    <div className="flex items-center gap-3 flex-wrap">
       <a
         href={`https://wa.me/?text=${encodeURIComponent(shareText + " " + shareUrl)}`}
         target="_blank"
         rel="noopener noreferrer"
-        className="flex items-center gap-2 px-4 py-2 rounded-xl border border-gray-200 text-sm text-slate-600 hover:bg-gray-50 transition-colors"
+        className="btn-pill flex items-center gap-2"
       >
-        <Share2 className="w-4 h-4" />
+        <svg xmlns="http://www.w3.org/2000/svg" width={14} height={14} viewBox="0 0 24 24" fill="currentColor">
+          <path d="M1.946 9.315c-.522-.174-.527-.455.01-.634l19.087-6.362c.529-.176.832.12.684.638l-5.454 19.086c-.15.529-.455.547-.679.045L12 14l6-8-8 6-8.054-2.685z" />
+        </svg>
         Compartir
       </a>
       <button
@@ -28,10 +29,9 @@ export default function ShareButtons({ shareUrl, shareText }: ShareButtonsProps)
           setCopied(true)
           setTimeout(() => setCopied(false), 2000)
         }}
-        className="flex items-center gap-2 px-4 py-2 rounded-xl border border-gray-200 text-sm text-slate-600 hover:bg-gray-50 transition-colors"
+        className="btn-pill"
       >
-        <Check className="w-4 h-4" />
-        {copied ? "Copiado" : "Copiar enlace"}
+        {copied ? "✓ Copiado" : "Copiar enlace"}
       </button>
     </div>
   )
