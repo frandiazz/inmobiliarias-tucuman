@@ -1,6 +1,7 @@
 "use client"
 
 import Link from "next/link"
+import { usePathname } from "next/navigation"
 import { useState, useEffect } from "react"
 import { Mountain, Menu, X } from "lucide-react"
 
@@ -13,6 +14,7 @@ const navLinks = [
 ]
 
 export default function Header() {
+  const pathname = usePathname()
   const [isOpen, setIsOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
 
@@ -37,15 +39,16 @@ export default function Header() {
             <span>Tucumán Inmuebles</span>
           </Link>
 
-          <nav className="hidden md:flex items-center gap-8">
+          <nav className="hidden md:flex nav-tabs">
             {navLinks.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                className="text-slate-700 hover:text-teal-800 font-medium transition-colors"
-              >
-                {link.label}
-              </Link>
+              <span key={link.href} className="nav-tab">
+                <Link
+                  href={link.href}
+                  className={`${pathname === link.href || (link.href !== "/" && pathname.startsWith(link.href)) ? "active" : ""}`}
+                >
+                  {link.label}
+                </Link>
+              </span>
             ))}
           </nav>
 
