@@ -75,7 +75,7 @@ export default async function PropertyDetail({
         />
         <PropertyGallery images={images} title={property.title} />
 
-        <div className="mt-8 grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-12 animate-fade-in-up" style={{ animationDelay: "0.1s" }}>
+        <div className="mt-6 grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-12 animate-fade-in-up" style={{ animationDelay: "0.1s" }}>
           <div className="lg:col-span-2 space-y-8">
             <div>
               <div className="flex items-start justify-between gap-4 flex-wrap">
