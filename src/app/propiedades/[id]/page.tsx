@@ -155,7 +155,7 @@ export default async function PropertyDetail({
               <h2 className="text-lg font-semibold text-slate-800 mb-3">
                 Ubicación
               </h2>
-              <PropertyMap title={property.title} className="h-64 w-full" />
+              <PropertyMap title={property.title} address={`${property.zona}, Tucumán, Argentina`} className="h-80 w-full" />
             </section>
 
             {similares.length > 0 && (
