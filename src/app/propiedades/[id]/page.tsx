@@ -75,7 +75,7 @@ export default async function PropertyDetail({
         />
         <PropertyGallery images={images} title={property.title} />
 
-        <div className="mt-8 grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-12">
+        <div className="mt-8 grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-12 animate-fade-in-up" style={{ animationDelay: "0.1s" }}>
           <div className="lg:col-span-2 space-y-8">
             <div>
               <div className="flex items-start justify-between gap-4 flex-wrap">
@@ -160,10 +160,10 @@ export default async function PropertyDetail({
 
             {similares.length > 0 && (
               <section>
-                <h2 className="text-lg font-semibold text-slate-800 mb-4">
+                <h2 className="text-lg font-semibold text-slate-800 mb-4 reveal-on-scroll">
                   Propiedades similares
                 </h2>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 reveal-on-scroll">
                   {similares.map((p) => (
                     <PropertyCard key={p.id} property={p} isNew={new Date(p.createdAt).getTime() > newCutoff} />
                   ))}

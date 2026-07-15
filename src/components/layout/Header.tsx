@@ -57,16 +57,10 @@ export default function Header() {
 
           <div className="hidden md:flex items-center gap-3 shrink-0">
             <Link
-              href="/login"
-              className="px-4 py-2 border border-teal-800 text-teal-800 rounded-lg hover:bg-teal-50 font-medium text-sm transition-colors"
-            >
-              Iniciar Sesión
-            </Link>
-            <Link
-              href="/contacto"
+              href="/publicar"
               className="btn-pill text-sm px-5 py-2"
             >
-              Contacto
+              Publicar
             </Link>
           </div>
 
@@ -102,18 +96,11 @@ export default function Header() {
             })}
             <hr className="border-gray-200" />
             <Link
-              href="/login"
-              onClick={() => setIsOpen(false)}
-              className="block px-5 py-3.5 text-center border-2 border-teal-800 text-teal-800 font-semibold rounded-xl hover:bg-teal-800 hover:text-white transition-colors"
-            >
-              Iniciar Sesión
-            </Link>
-            <Link
-              href="/contacto"
+              href="/publicar"
               onClick={() => setIsOpen(false)}
               className="block px-5 py-3.5 text-center btn-pill w-full justify-center"
             >
-              Contacto
+              Publicar propiedad
             </Link>
           </div>
         </div>

@@ -116,7 +116,7 @@ export default function CompararPage() {
               <CompareRow label="Operación">
                 {properties.map((p) => (
                   <Cell key={p.id}>
-                    <span className={`px-2 py-0.5 rounded-lg text-xs font-semibold ${p.operation === "Venta" ? "bg-teal-100 text-teal-800" : "bg-orange-100 text-orange-700"}`}>
+                      <span className={`px-2 py-0.5 rounded-lg text-xs font-semibold ${p.operation === "Venta" ? "bg-teal-100 text-teal-800" : "bg-teal-100 text-teal-600"}`}>
                       {p.operation}
                     </span>
                   </Cell>
@@ -181,7 +181,7 @@ export default function CompararPage() {
                   <div key={p.id} className="mt-2">
                     <Link
                       href={`/propiedades/${p.id}`}
-                      className="inline-flex items-center gap-1 text-sm font-semibold text-orange-500 hover:text-orange-600"
+                      className="inline-flex items-center gap-1 text-sm font-semibold text-teal-700 hover:text-teal-800"
                     >
                       Ver detalle
                       <ArrowLeft className="w-3.5 h-3.5 rotate-180" />

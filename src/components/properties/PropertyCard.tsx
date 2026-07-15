@@ -23,7 +23,7 @@ export default function PropertyCard({ property, isNew }: PropertyCardProps) {
         />
         <span
           className={`absolute top-3 left-3 px-3 py-1 rounded-lg text-xs font-semibold text-white ${
-            property.operation === "Venta" ? "bg-teal-800" : "bg-orange-500"
+            property.operation === "Venta" ? "bg-teal-800" : "bg-teal-600"
           }`}
         >
           {property.operation}
@@ -69,7 +69,7 @@ export default function PropertyCard({ property, isNew }: PropertyCardProps) {
             </span>
             <Link
               href={`/propiedades/${property.id}`}
-              className="flex items-center gap-1 text-sm font-semibold text-orange-500 hover:text-orange-600 transition-colors shrink-0"
+              className="flex items-center gap-1 text-sm font-semibold text-teal-700 hover:text-teal-800 transition-colors shrink-0"
             >
               Ver detalles
               <ArrowRight className="w-4 h-4" />

@@ -66,7 +66,7 @@ export default async function AgencyPage({
       </div>
       <section className="bg-gradient-to-r from-teal-800 to-teal-700 py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center gap-5">
+          <div className="flex items-center gap-5 animate-fade-in-up">
             <div className="w-20 h-20 rounded-full bg-white/20 flex items-center justify-center shrink-0">
               <span className="text-3xl font-bold text-white">{initials}</span>
             </div>
@@ -89,11 +89,11 @@ export default async function AgencyPage({
 
       <section className="py-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-2xl font-bold text-slate-800 mb-8">
+          <h2 className="text-2xl font-bold text-slate-800 mb-8 reveal-on-scroll">
             Catálogo de propiedades
           </h2>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 reveal-on-scroll">
             {properties.map((property) => (
               <PropertyCard key={property.id} property={property} isNew={new Date(property.createdAt).getTime() > newCutoff} />
             ))}

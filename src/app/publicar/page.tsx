@@ -50,12 +50,12 @@ export default function PublicarPage() {
     <main className="min-h-screen bg-white">
       <section className="relative bg-gradient-to-br from-teal-800 via-teal-700 to-teal-900 overflow-hidden">
         <div className="absolute inset-0 opacity-10">
-          <div className="absolute top-10 left-10 w-72 h-72 rounded-full bg-orange-500 blur-3xl" />
+          <div className="absolute top-10 left-10 w-72 h-72 rounded-full bg-teal-500 blur-3xl" />
           <div className="absolute bottom-10 right-10 w-96 h-96 rounded-full bg-teal-300 blur-3xl" />
         </div>
         <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-20 md:py-32">
           <div className="max-w-3xl">
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-orange-500/20 text-orange-300 text-sm font-medium mb-6">
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-teal-500/20 text-teal-200 text-sm font-medium mb-6">
               <Building2 className="w-4 h-4" />
               Portal Tucumán Inmuebles
             </span>

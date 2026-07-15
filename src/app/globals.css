@@ -383,8 +383,8 @@
 }
 
 .btn-pill:hover {
-  background-color: #23c483;
-  box-shadow: 0px 15px 20px rgba(46, 229, 157, 0.4);
+  background-color: #0f766e;
+  box-shadow: 0px 15px 20px rgba(15, 118, 110, 0.4);
   color: #fff;
   transform: translateY(-7px);
 }
@@ -700,4 +700,22 @@
 @keyframes hero-zoom {
   from { transform: scale(1.05); }
   to { transform: scale(1.15); }
+}
+
+/* ── Global polish ── */
+html {
+  scroll-behavior: smooth;
+}
+::selection {
+  background-color: rgba(13, 148, 136, 0.2);
+  color: #0f766e;
+}
+:focus-visible {
+  outline: 2px solid rgba(13, 148, 136, 0.6);
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+body {
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
 }

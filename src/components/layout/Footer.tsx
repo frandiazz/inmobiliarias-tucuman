@@ -93,7 +93,7 @@ export default function Footer() {
                 />
                 <button
                   type="submit"
-                  className="p-3 rounded-xl bg-orange-500 hover:bg-orange-600 text-white transition-colors"
+                  className="p-3 rounded-xl bg-teal-600 hover:bg-teal-700 text-white transition-colors"
                 >
                   <ArrowRight className="w-4 h-4" />
                 </button>

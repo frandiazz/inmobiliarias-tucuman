@@ -121,7 +121,7 @@ export default async function PropiedadesPage({
           ]}
         />
 
-        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
+        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6 animate-fade-in-up">
           <div>
             <h1 className="text-3xl font-bold text-slate-800">
               Propiedades en Tucumán
@@ -134,7 +134,7 @@ export default async function PropiedadesPage({
             href="/propiedades"
             className={`flex items-center gap-2 px-4 py-2 rounded-xl border text-sm font-medium transition-colors ${
               hasFilters
-                ? "bg-orange-50 border-orange-200 text-orange-700 hover:bg-orange-100"
+                ? "bg-teal-50 border-teal-200 text-teal-700 hover:bg-teal-100"
                 : "bg-white border-gray-200 text-slate-600"
             }`}
           >
@@ -143,7 +143,7 @@ export default async function PropiedadesPage({
           </Link>
         </div>
 
-          <details className="mb-6 bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
+          <details className="mb-6 bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden animate-fade-in-up" style={{ animationDelay: "0.15s" }}>
             <summary className="flex items-center gap-2 px-4 sm:px-6 py-4 cursor-pointer text-sm font-semibold text-slate-700 hover:bg-slate-50 transition-colors">
               <ArrowUpDown className="w-4 h-4" />
               Filtros avanzados
@@ -274,7 +274,7 @@ export default async function PropiedadesPage({
             </Link>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 reveal-on-scroll">
             {pageItems.map((property) => (
               <PropertyCard key={property.id} property={property} isNew={new Date(property.createdAt).getTime() > newCutoff} />
             ))}
