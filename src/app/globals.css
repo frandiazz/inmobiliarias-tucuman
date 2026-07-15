@@ -695,3 +695,9 @@
 .btn-press:active {
   transform: scale(0.97) !important;
 }
+
+/* ── Hero Ken Burns zoom ── */
+@keyframes hero-zoom {
+  from { transform: scale(1.05); }
+  to { transform: scale(1.15); }
+}

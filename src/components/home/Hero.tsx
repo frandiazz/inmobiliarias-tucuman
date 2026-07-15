@@ -1,5 +1,6 @@
 import { Search, Building2, Home } from "lucide-react"
 import RadioTabs from "@/components/ui/RadioTabs"
+import HeroBackground from "./HeroBackground"
 
 const operaciones = [
   { value: "venta", label: "Venta" },
@@ -29,13 +30,7 @@ export default function Hero({ totalProps, totalAgencies }: HeroProps) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <div
-        className="absolute inset-0 bg-cover bg-center bg-no-repeat md:bg-fixed"
-        style={{
-          backgroundImage:
-            "url(https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?q=80&w=2075&auto=format&fit=crop)",
-        }}
-      />
+      <HeroBackground />
       <div className="absolute inset-0 animate-gradient-shift" style={{ background: "linear-gradient(135deg, rgba(0,0,0,0.65) 0%, rgba(15,118,110,0.55) 50%, rgba(0,0,0,0.65) 100%)" }} />
 
       <div className="relative z-10 w-full max-w-6xl mx-auto px-4 flex flex-col items-center text-center">
@@ -60,7 +55,8 @@ export default function Hero({ totalProps, totalAgencies }: HeroProps) {
         <form
           action="/propiedades"
           method="GET"
-          className="mt-8 w-full max-w-5xl bg-white rounded-2xl shadow-lg p-4 md:p-6"
+          className="mt-8 w-full max-w-5xl bg-white rounded-2xl shadow-lg p-4 md:p-6 animate-fade-in-up"
+          style={{ animationDelay: "0.5s" }}
         >
           <div className="flex flex-col gap-3">
             <div className="flex justify-center">
