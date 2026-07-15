@@ -720,20 +720,7 @@ body {
   text-rendering: optimizeLegibility;
 }
 
-/* ── Map tooltip ── */
-.leaflet-tooltip.map-pin-label {
-  background: #fff;
-  border: 1px solid rgba(15, 118, 110, 0.3);
-  color: #0f766e;
-  font-weight: 600;
-  font-size: 12px;
-  padding: 4px 10px;
-  border-radius: 9999px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
-}
-.leaflet-tooltip.map-pin-label::before {
-  display: none;
-}
+/* ── Map ── */
 .leaflet-control-attribution {
   font-size: 10px;
   background: rgba(255, 255, 255, 0.8);
