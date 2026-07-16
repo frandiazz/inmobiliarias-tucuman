@@ -274,7 +274,7 @@ export default async function PropiedadesPage({
             </Link>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 reveal-on-scroll">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
             {pageItems.map((property) => (
               <PropertyCard key={property.id} property={property} isNew={new Date(property.createdAt).getTime() > newCutoff} />
             ))}
