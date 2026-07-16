@@ -1,6 +1,6 @@
 "use client"
 
-import { useRef } from "react"
+import { useRef, useState, useEffect } from "react"
 import { useFavorites } from "@/utils/favorites"
 
 interface FavoriteButtonProps {
@@ -10,8 +10,11 @@ interface FavoriteButtonProps {
 
 export default function FavoriteButton({ propertyId, className = "" }: FavoriteButtonProps) {
   const { toggle, isFavorite } = useFavorites()
-  const active = isFavorite(propertyId)
+  const [mounted, setMounted] = useState(false)
+  const active = mounted ? isFavorite(propertyId) : false
   const inputRef = useRef<HTMLInputElement>(null)
+
+  useEffect(() => setMounted(true), [])
 
   function handleClick(e: React.MouseEvent) {
     e.preventDefault()
@@ -23,7 +26,10 @@ export default function FavoriteButton({ propertyId, className = "" }: FavoriteB
   }
 
   return (
-    <div className={`heart-btn ${className}`} onClick={handleClick}>
+    <div
+      className={`heart-btn ${className} ${mounted ? "" : "invisible"}`}
+      onClick={handleClick}
+    >
       <input ref={inputRef} type="checkbox" defaultChecked={active} title="like" />
       <div className="checkmark">
         <svg xmlns="http://www.w3.org/2000/svg" className="outline" viewBox="0 0 24 24" width={24} height={24}>

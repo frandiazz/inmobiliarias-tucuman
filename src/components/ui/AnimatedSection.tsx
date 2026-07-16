@@ -11,10 +11,12 @@ interface AnimatedSectionProps {
 export default function AnimatedSection({ children, className = "", delay = 0 }: AnimatedSectionProps) {
   const ref = useRef<HTMLDivElement>(null)
   const [visible, setVisible] = useState(false)
+  const [armed, setArmed] = useState(false)
 
   useEffect(() => {
     const el = ref.current
     if (!el) return
+    setArmed(true)
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
@@ -31,7 +33,7 @@ export default function AnimatedSection({ children, className = "", delay = 0 }:
   return (
     <div
       ref={ref}
-      className={`${className} ${visible ? "animate-fade-in-up" : "opacity-0"}`}
+      className={`${className} ${armed && !visible ? "opacity-0" : "animate-fade-in-up"}`}
     >
       {children}
     </div>

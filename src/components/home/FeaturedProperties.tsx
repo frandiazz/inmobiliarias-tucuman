@@ -17,7 +17,7 @@ export default async function FeaturedProperties() {
 
         <div className="mt-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
           {latest.map((property, i) => (
-            <AnimatedSection key={property.id} delay={i * 100}>
+            <AnimatedSection key={property.id} delay={i * 60}>
               <PropertyCard property={property} isNew={new Date(property.createdAt).getTime() > newCutoff} />
             </AnimatedSection>
           ))}

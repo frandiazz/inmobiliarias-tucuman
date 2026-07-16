@@ -74,7 +74,7 @@ export default function FavoritosPage() {
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
             {properties.map((p, i) => (
-              <AnimatedSection key={p.id} delay={i * 80}>
+              <AnimatedSection key={p.id} delay={i * 50}>
                 <PropertyCard property={p} isNew={new Date(p.createdAt).getTime() > newCutoff} />
               </AnimatedSection>
             ))}
