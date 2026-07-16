@@ -1,4 +1,8 @@
+"use client"
+
 import Link from "next/link"
+import { usePathname } from "next/navigation"
+import { useEffect, useState } from "react"
 import { LayoutDashboard, Home, Building2, PlusCircle, Inbox } from "lucide-react"
 import { getLeads } from "@/lib/db"
 
@@ -11,14 +15,15 @@ const sidebarLinks = [
   { href: "/admin/leads", label: "Consultas", icon: Inbox },
 ]
 
-export default async function Sidebar({ pathname }: { pathname: string }) {
-  let unread = 0
-  try {
-    const leads = await getLeads()
-    unread = leads.filter((l) => !l.read).length
-  } catch {
-    unread = 0
-  }
+export default function Sidebar() {
+  const pathname = usePathname()
+  const [unread, setUnread] = useState(0)
+
+  useEffect(() => {
+    getLeads()
+      .then((leads) => setUnread(leads.filter((l) => !l.read).length))
+      .catch(() => setUnread(0))
+  }, [])
 
   return (
     <>

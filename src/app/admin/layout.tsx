@@ -1,60 +1,15 @@
-"use client"
-
-import { useEffect, useState } from "react"
-import { useRouter, usePathname } from "next/navigation"
+import { redirect } from "next/navigation"
 import Link from "next/link"
-import { LayoutDashboard, Home, Building2, PlusCircle, LogOut, Inbox } from "lucide-react"
+import { LogOut } from "lucide-react"
 import { logoutAction, checkAuth } from "@/app/admin/actions"
 import Sidebar from "@/components/admin/Sidebar"
 
-const sidebarLinks = [
-  { href: "/admin", label: "Dashboard", icon: LayoutDashboard },
-  { href: "/admin/propiedades", label: "Propiedades", icon: Home },
-  { href: "/admin/propiedades/nueva", label: "Nueva Propiedad", icon: PlusCircle },
-  { href: "/admin/agencias", label: "Agencias", icon: Building2 },
-  { href: "/admin/agencias/nueva", label: "Nueva Agencia", icon: PlusCircle },
-  { href: "/admin/leads", label: "Consultas", icon: Inbox },
-]
+export const dynamic = "force-dynamic"
 
-export default function AdminLayout({ children }: { children: React.ReactNode }) {
-  const router = useRouter()
-  const pathname = usePathname()
-  const [status, setStatus] = useState<"loading" | "ok">("loading")
-
-  useEffect(() => {
-    if (pathname === "/admin/login") {
-      setStatus("ok")
-      return
-    }
-    let active = true
-    checkAuth()
-      .then((ok) => {
-        if (!active) return
-        if (!ok) {
-          router.replace("/admin/login")
-        } else {
-          setStatus("ok")
-        }
-      })
-      .catch((err) => {
-        console.error("[layout] checkAuth error:", err)
-        if (active) router.replace("/admin/login")
-      })
-    return () => {
-      active = false
-    }
-  }, [pathname, router])
-
-  if (pathname === "/admin/login") {
-    return <>{children}</>
-  }
-
-  if (status !== "ok") {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-slate-100">
-        <div className="w-8 h-8 border-4 border-teal-800 border-t-transparent rounded-full animate-spin" />
-      </div>
-    )
+export default async function AdminLayout({ children }: { children: React.ReactNode }) {
+  const ok = await checkAuth()
+  if (!ok) {
+    redirect("/admin/login")
   }
 
   return (
@@ -67,7 +22,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           <p className="text-xs text-slate-400 mt-0.5">Portal Tucumán Inmuebles</p>
         </div>
         <nav className="flex-1 p-4 space-y-1">
-          <Sidebar pathname={pathname} />
+          <Sidebar />
         </nav>
         <div className="p-4 border-t border-gray-100 space-y-2">
           <Link
@@ -76,33 +31,21 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           >
             Ver sitio público
           </Link>
-          <button
-            onClick={async () => {
-              await logoutAction()
-            }}
-            className="flex items-center justify-center gap-2 w-full py-2.5 rounded-xl text-sm text-red-500 hover:bg-red-50 transition-colors"
-          >
-            <LogOut className="w-4 h-4" />
-            Cerrar sesión
-          </button>
+          <form action={logoutAction}>
+            <button
+              type="submit"
+              className="flex items-center justify-center gap-2 w-full py-2.5 rounded-xl text-sm text-red-500 hover:bg-red-50 transition-colors"
+            >
+              <LogOut className="w-4 h-4" />
+              Cerrar sesión
+            </button>
+          </form>
         </div>
       </aside>
 
       <div className="flex-1 flex flex-col">
         <header className="bg-white border-b border-gray-200 h-16 flex items-center px-6 lg:px-8">
-          <div className="flex items-center gap-3 lg:hidden">
-            <span className="text-lg font-bold text-teal-800">Admin</span>
-          </div>
           <div className="ml-auto flex items-center gap-4">
-            <button
-              onClick={async () => {
-                await logoutAction()
-              }}
-              className="flex items-center gap-2 text-sm text-slate-500 hover:text-red-600 transition-colors lg:hidden"
-            >
-              <LogOut className="w-4 h-4" />
-              Salir
-            </button>
             <Link
               href="/"
               className="text-sm text-slate-500 hover:text-teal-800 transition-colors"
