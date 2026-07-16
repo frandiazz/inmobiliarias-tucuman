@@ -4,22 +4,26 @@ import { useState } from "react"
 import { useRouter } from "next/navigation"
 import { Mountain, Lock } from "lucide-react"
 import Link from "next/link"
-
-const ADMIN_PASSWORD = "admin123"
+import { loginAction } from "@/app/admin/actions"
 
 export default function AdminLogin() {
   const [password, setPassword] = useState("")
   const [error, setError] = useState(false)
+  const [loading, setLoading] = useState(false)
   const router = useRouter()
 
-  function handleSubmit(e: React.FormEvent) {
+  async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
-    if (password === ADMIN_PASSWORD) {
-      sessionStorage.setItem("admin-auth", "true")
+    setLoading(true)
+    setError(false)
+    const res = await loginAction(password)
+    if (res.ok) {
       router.push("/admin")
+      router.refresh()
     } else {
       setError(true)
       setPassword("")
+      setLoading(false)
       setTimeout(() => setError(false), 3000)
     }
   }
@@ -59,9 +63,10 @@ export default function AdminLogin() {
             </div>
             <button
               type="submit"
-              className="w-full py-3 bg-teal-800 hover:bg-teal-900 text-white font-semibold rounded-xl transition-colors"
+              disabled={loading}
+              className="w-full py-3 bg-teal-800 hover:bg-teal-900 text-white font-semibold rounded-xl transition-colors disabled:opacity-60"
             >
-              Ingresar
+              {loading ? "Verificando..." : "Ingresar"}
             </button>
           </form>
 
