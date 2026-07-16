@@ -38,10 +38,13 @@ export async function verifyToken(token: string | undefined): Promise<boolean> {
 
 export async function loginAction(password: string) {
   const valid = process.env.ADMIN_PASSWORD ?? "admin123"
+  console.log("[login] ADMIN_PASSWORD loaded:", Boolean(process.env.ADMIN_PASSWORD))
+  console.log("[login] password length:", password.length, "valid length:", valid.length)
   // comparación de tiempo constante para no filtrar la longitud
   const a = Buffer.from(password)
   const b = Buffer.from(valid)
   const ok = a.length === b.length && crypto.timingSafeEqual(a, b)
+  console.log("[login] password match:", ok)
 
   if (!ok) {
     return { ok: false }
@@ -67,5 +70,9 @@ export async function logoutAction() {
 
 export async function checkAuth(): Promise<boolean> {
   const store = await cookies()
-  return verifyToken(store.get(COOKIE_NAME)?.value)
+  const token = store.get(COOKIE_NAME)?.value
+  console.log("[checkAuth] cookie present:", Boolean(token))
+  const result = verifyToken(token)
+  console.log("[checkAuth] result:", result)
+  return result
 }

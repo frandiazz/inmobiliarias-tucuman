@@ -27,14 +27,19 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       return
     }
     let active = true
-    checkAuth().then((ok) => {
-      if (!active) return
-      if (!ok) {
-        router.replace("/admin/login")
-      } else {
-        setStatus("ok")
-      }
-    })
+    checkAuth()
+      .then((ok) => {
+        if (!active) return
+        if (!ok) {
+          router.replace("/admin/login")
+        } else {
+          setStatus("ok")
+        }
+      })
+      .catch((err) => {
+        console.error("[layout] checkAuth error:", err)
+        if (active) router.replace("/admin/login")
+      })
     return () => {
       active = false
     }
