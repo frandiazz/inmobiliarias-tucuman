@@ -2,6 +2,7 @@ import Link from "next/link"
 import { getAgencies, getProperties, deleteAgency } from "@/lib/db"
 import { Plus, Pencil, Trash2 } from "lucide-react"
 import { redirect } from "next/navigation"
+import ConfirmDelete from "@/components/admin/ConfirmDelete"
 
 export default async function AdminAgencias() {
   const [agencies, properties] = await Promise.all([getAgencies(), getProperties()])
@@ -19,7 +20,7 @@ export default async function AdminAgencias() {
         </div>
         <Link
           href="/admin/agencias/nueva"
-          className="flex items-center gap-2 px-4 py-2.5 bg-orange-500 hover:bg-orange-600 text-white font-semibold rounded-xl transition-colors"
+          className="flex items-center gap-2 px-4 py-2.5 bg-teal-700 hover:bg-teal-800 text-white font-semibold rounded-xl transition-colors"
         >
           <Plus className="w-4 h-4" />
           Nueva Agencia
@@ -45,23 +46,23 @@ export default async function AdminAgencias() {
                 </div>
               </div>
               <div className="flex items-center gap-1">
-                <button className="p-2 rounded-lg text-slate-400 hover:text-teal-700 hover:bg-teal-50 transition-colors">
+                <Link
+                  href={`/admin/agencias/${a.id}/edit`}
+                  className="p-2 rounded-lg text-slate-400 hover:text-teal-700 hover:bg-teal-50 transition-colors"
+                >
                   <Pencil className="w-4 h-4" />
-                </button>
-                <form
+                </Link>
+                <ConfirmDelete
                   action={async () => {
                     "use server"
                     await deleteAgency(a.id)
                     redirect("/admin/agencias")
                   }}
+                  message="¿Eliminar esta agencia? También se quitarán sus referencias en propiedades."
+                  className="p-2 rounded-lg text-slate-400 hover:text-red-600 hover:bg-red-50 transition-colors"
                 >
-                  <button
-                    type="submit"
-                    className="p-2 rounded-lg text-slate-400 hover:text-red-600 hover:bg-red-50 transition-colors"
-                  >
-                    <Trash2 className="w-4 h-4" />
-                  </button>
-                </form>
+                  <Trash2 className="w-4 h-4" />
+                </ConfirmDelete>
               </div>
             </div>
 

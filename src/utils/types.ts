@@ -27,4 +27,5 @@ export interface Property {
   longitude?: number | null
   antiguedad?: string | null
   estado?: string | null
+  published?: boolean
 }

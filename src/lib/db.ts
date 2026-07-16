@@ -146,6 +146,56 @@ export async function getAgenciesCount(): Promise<number> {
   return count ?? 0
 }
 
+// ── Leads helpers ──
+
+export interface Lead {
+  id: number
+  name?: string
+  email?: string
+  phone?: string
+  message?: string
+  property_id?: number
+  property_title?: string
+  read?: boolean
+  created_at?: string
+  [key: string]: any
+}
+
+export async function getLeads(): Promise<Lead[]> {
+  const { data } = await supabase
+    .from("leads")
+    .select("*")
+    .order("created_at", { ascending: false })
+  return (data ?? []).map((r: any) => ({
+    id: r.id,
+    name: r.name ?? r.nombre ?? "",
+    email: r.email ?? "",
+    phone: r.phone ?? r.telefono ?? "",
+    message: r.message ?? r.mensaje ?? "",
+    property_id: r.property_id ?? r.propertyId ?? null,
+    property_title: r.property_title ?? r.propertyTitle ?? null,
+    read: r.read ?? r.leido ?? false,
+    created_at: r.created_at,
+  }))
+}
+
+export async function deleteLead(id: number): Promise<boolean> {
+  const { error } = await supabase.from("leads").delete().eq("id", id)
+  return !error
+}
+
+export async function markLeadRead(id: number, read: boolean): Promise<boolean> {
+  const { error } = await supabase.from("leads").update({ read }).eq("id", id)
+  return !error
+}
+
+// ── Property published toggle ──
+
+export async function setPropertyPublished(id: number, published: boolean): Promise<boolean> {
+  const { error } = await supabase.from("properties").update({ published }).eq("id", id)
+  return !error
+}
+
 // ── Admin CRUD ──
 
 export async function addAgency(data: Omit<Agency, "id">): Promise<Agency | null> {
@@ -156,6 +206,11 @@ export async function addAgency(data: Omit<Agency, "id">): Promise<Agency | null
 
 export async function deleteAgency(id: number): Promise<boolean> {
   const { error } = await supabase.from("agencies").delete().eq("id", id)
+  return !error
+}
+
+export async function updateAgency(id: number, data: any): Promise<boolean> {
+  const { error } = await supabase.from("agencies").update(data).eq("id", id)
   return !error
 }
 
@@ -177,6 +232,8 @@ export async function addProperty(data: any): Promise<any | null> {
     description: data.description ?? null,
     latitude: data.latitude ?? null,
     longitude: data.longitude ?? null,
+    antiguedad: data.antiguedad ?? null,
+    estado: data.estado ?? null,
     published: data.published ?? true,
   }
   const { data: result, error } = await supabase.from("properties").insert(row).select().single()
@@ -197,6 +254,10 @@ export async function updateProperty(id: number, data: any): Promise<boolean> {
   if (data.zona !== undefined) row.zona = data.zona
   if (data.tipo !== undefined) row.tipo = data.tipo
   if (data.description !== undefined) row.description = data.description
+  if (data.latitude !== undefined) row.latitude = data.latitude
+  if (data.longitude !== undefined) row.longitude = data.longitude
+  if (data.antiguedad !== undefined) row.antiguedad = data.antiguedad
+  if (data.estado !== undefined) row.estado = data.estado
   if (data.published !== undefined) row.published = data.published
   if (data.agencyId !== undefined) row.agency_id = data.agencyId
   if (data.agency !== undefined) row.agency_name = data.agency

@@ -3,8 +3,9 @@
 import { useEffect, useState } from "react"
 import { useRouter, usePathname } from "next/navigation"
 import Link from "next/link"
-import { LayoutDashboard, Home, Building2, PlusCircle, LogOut } from "lucide-react"
+import { LayoutDashboard, Home, Building2, PlusCircle, LogOut, Inbox } from "lucide-react"
 import { logoutAction, checkAuth } from "@/app/admin/actions"
+import Sidebar from "@/components/admin/Sidebar"
 
 const sidebarLinks = [
   { href: "/admin", label: "Dashboard", icon: LayoutDashboard },
@@ -12,6 +13,7 @@ const sidebarLinks = [
   { href: "/admin/propiedades/nueva", label: "Nueva Propiedad", icon: PlusCircle },
   { href: "/admin/agencias", label: "Agencias", icon: Building2 },
   { href: "/admin/agencias/nueva", label: "Nueva Agencia", icon: PlusCircle },
+  { href: "/admin/leads", label: "Consultas", icon: Inbox },
 ]
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
@@ -60,19 +62,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           <p className="text-xs text-slate-400 mt-0.5">Portal Tucumán Inmuebles</p>
         </div>
         <nav className="flex-1 p-4 space-y-1">
-          {sidebarLinks.map((link) => {
-            const Icon = link.icon
-            return (
-              <Link
-                key={link.href}
-                href={link.href}
-                className="flex items-center gap-3 px-4 py-2.5 rounded-xl text-slate-600 hover:bg-teal-50 hover:text-teal-800 font-medium transition-colors"
-              >
-                <Icon className="w-5 h-5" />
-                {link.label}
-              </Link>
-            )
-          })}
+          <Sidebar pathname={pathname} />
         </nav>
         <div className="p-4 border-t border-gray-100 space-y-2">
           <Link

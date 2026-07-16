@@ -3,6 +3,7 @@
 import { useState } from "react"
 import { useRouter } from "next/navigation"
 import type { Property } from "@/utils/types"
+import AdminMapPicker from "./AdminMapPicker"
 
 const zonas = [
   "Yerba Buena", "Barrio Norte", "Barrio Sur", "Tafí Viejo",
@@ -10,6 +11,7 @@ const zonas = [
 ]
 
 const tipos = ["Casa", "Departamento", "Dúplex", "Terreno"]
+const estados = ["Excelente", "Muy bueno", "Bueno", "A refaccionar"]
 
 interface PropertyFormProps {
   initial?: Property
@@ -30,11 +32,22 @@ export default function PropertyForm({ initial, agencies, onSubmit }: PropertyFo
     baths: initial?.baths ?? 1,
     area: initial?.area ?? 80,
     image: initial?.image ?? "",
+    images: initial?.images ?? [],
+    description: initial?.description ?? "",
+    antiguedad: initial?.antiguedad ?? "",
+    estado: initial?.estado ?? "Excelente",
+    latitude: initial?.latitude ?? null,
+    longitude: initial?.longitude ?? null,
+    published: initial?.published ?? true,
     agency: initial?.agency ?? agencies[0]?.name ?? "",
   })
 
   const zona = zonas.find((z) => form.title.toLowerCase().includes(z.toLowerCase())) ?? ""
   const tipo = tipos.find((t) => form.title.toLowerCase().includes(t.toLowerCase())) ?? ""
+
+  function update<K extends keyof typeof form>(key: K, value: (typeof form)[K]) {
+    setForm((f) => ({ ...f, [key]: value }))
+  }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -44,11 +57,13 @@ export default function PropertyForm({ initial, agencies, onSubmit }: PropertyFo
       zona,
       tipo,
       createdAt: initial?.createdAt ?? new Date().toISOString(),
+      images: form.images.filter((i) => i.trim() !== ""),
     })
     setSaving(false)
     router.push("/admin/propiedades")
     router.refresh()
   }
+
   function fillTitle(tipo: string, zona: string) {
     const dorm = tipo === "Terreno" ? 0 : form.beds
     const templates: Record<string, string[]> = {
@@ -58,153 +73,216 @@ export default function PropertyForm({ initial, agencies, onSubmit }: PropertyFo
       Terreno: [`Terreno en ${zona}`, `Lote en ${zona}`],
     }
     const opts = templates[tipo] ?? ["Propiedad en " + zona]
-    setForm((f) => ({ ...f, title: opts[0] }))
+    update("title", opts[0])
   }
 
   return (
-    <form onSubmit={handleSubmit} className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 max-w-2xl">
-      <div className="space-y-6">
-        <div className="grid grid-cols-2 gap-4">
-          <div>
-            <label className="block text-sm font-medium text-slate-700 mb-1">Tipo</label>
-            <select
-              value={tipo ?? ""}
-              onChange={(e) => {
-                const t = e.target.value
-                const zn = zonas.find((z) => form.title.includes(z)) ?? zonas[0]
-                fillTitle(t, zn)
-              }}
-              className="w-full px-3 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500"
-            >
-              <option value="">Seleccionar...</option>
-              {tipos.map((t) => (
-                <option key={t} value={t}>{t}</option>
-              ))}
-            </select>
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-slate-700 mb-1">Zona</label>
-            <select
-              value={zona ?? ""}
-              onChange={(e) => {
-                const zn = e.target.value
-                const tp = tipos.find((t) => form.title.includes(t)) ?? "Casa"
-                fillTitle(tp, zn)
-              }}
-              className="w-full px-3 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500"
-            >
-              <option value="">Seleccionar...</option>
-              {zonas.map((z) => (
-                <option key={z} value={z}>{z}</option>
-              ))}
-            </select>
-          </div>
-        </div>
-
+    <form onSubmit={handleSubmit} className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 max-w-3xl space-y-6">
+      <div className="grid grid-cols-2 gap-4">
         <div>
-          <label className="block text-sm font-medium text-slate-700 mb-1">Título de la propiedad</label>
+          <label className="block text-sm font-medium text-slate-700 mb-1">Tipo</label>
+          <select
+            value={tipo ?? ""}
+            onChange={(e) => {
+              const t = e.target.value
+              const zn = zonas.find((z) => form.title.includes(z)) ?? zonas[0]
+              fillTitle(t, zn)
+            }}
+            className="w-full px-3 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500"
+          >
+            <option value="">Seleccionar...</option>
+            {tipos.map((t) => (<option key={t} value={t}>{t}</option>))}
+          </select>
+        </div>
+        <div>
+          <label className="block text-sm font-medium text-slate-700 mb-1">Zona</label>
+          <select
+            value={zona ?? ""}
+            onChange={(e) => {
+              const zn = e.target.value
+              const tp = tipos.find((t) => form.title.includes(t)) ?? "Casa"
+              fillTitle(tp, zn)
+            }}
+            className="w-full px-3 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500"
+          >
+            <option value="">Seleccionar...</option>
+            {zonas.map((z) => (<option key={z} value={z}>{z}</option>))}
+          </select>
+        </div>
+      </div>
+
+      <div>
+        <label className="block text-sm font-medium text-slate-700 mb-1">Título de la propiedad</label>
+        <input
+          type="text"
+          value={form.title}
+          onChange={(e) => update("title", e.target.value)}
+          className="w-full px-3 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500"
+          required
+        />
+      </div>
+
+      <div className="grid grid-cols-2 gap-4">
+        <div>
+          <label className="block text-sm font-medium text-slate-700 mb-1">Operación</label>
+          <select
+            value={form.operation}
+            onChange={(e) => update("operation", e.target.value as "Venta" | "Alquiler")}
+            className="w-full px-3 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500"
+          >
+            <option value="Venta">Venta</option>
+            <option value="Alquiler">Alquiler</option>
+          </select>
+        </div>
+        <div>
+          <label className="block text-sm font-medium text-slate-700 mb-1">Agencia</label>
+          <select
+            value={form.agencyId}
+            onChange={(e) => {
+              const id = Number(e.target.value)
+              const a = agencies.find((ag) => ag.id === id)
+              setForm((f) => ({ ...f, agencyId: id, agency: a?.name ?? "" }))
+            }}
+            className="w-full px-3 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500"
+          >
+            {agencies.map((a) => (<option key={a.id} value={a.id}>{a.name}</option>))}
+          </select>
+        </div>
+      </div>
+
+      <div className="grid grid-cols-4 gap-4">
+        <div className="col-span-2">
+          <label className="block text-sm font-medium text-slate-700 mb-1">Precio</label>
           <input
             type="text"
-            value={form.title}
-            onChange={(e) => setForm((f) => ({ ...f, title: e.target.value }))}
+            value={form.price}
+            onChange={(e) => update("price", e.target.value)}
+            placeholder={form.operation === "Venta" ? "USD 85.000" : "$ 45.000/mes"}
             className="w-full px-3 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500"
             required
           />
         </div>
-
-        <div className="grid grid-cols-2 gap-4">
-          <div>
-            <label className="block text-sm font-medium text-slate-700 mb-1">Operación</label>
-            <select
-              value={form.operation}
-              onChange={(e) => setForm((f) => ({ ...f, operation: e.target.value as "Venta" | "Alquiler" }))}
-              className="w-full px-3 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500"
-            >
-              <option value="Venta">Venta</option>
-              <option value="Alquiler">Alquiler</option>
-            </select>
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-slate-700 mb-1">Agencia</label>
-            <select
-              value={form.agencyId}
-              onChange={(e) => {
-                const id = Number(e.target.value)
-                const a = agencies.find((ag) => ag.id === id)
-                setForm((f) => ({ ...f, agencyId: id, agency: a?.name ?? "" }))
-              }}
-              className="w-full px-3 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500"
-            >
-              {agencies.map((a) => (
-                <option key={a.id} value={a.id}>{a.name}</option>
-              ))}
-            </select>
-          </div>
+        <div>
+          <label className="block text-sm font-medium text-slate-700 mb-1">Dormitorios</label>
+          <input
+            type="number" value={form.beds} min="0"
+            onChange={(e) => update("beds", Number(e.target.value))}
+            className="w-full px-3 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500"
+          />
         </div>
-
-        <div className="grid grid-cols-3 gap-4">
-          <div>
-            <label className="block text-sm font-medium text-slate-700 mb-1">Precio</label>
-            <input
-              type="text"
-              value={form.price}
-              onChange={(e) => setForm((f) => ({ ...f, price: e.target.value }))}
-              placeholder={form.operation === "Venta" ? "USD 85.000" : "$ 45.000/mes"}
-              className="w-full px-3 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500"
-              required
-            />
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-slate-700 mb-1">Dormitorios</label>
-            <input
-              type="number"
-              value={form.beds}
-              onChange={(e) => setForm((f) => ({ ...f, beds: Number(e.target.value) }))}
-              min="0"
-              className="w-full px-3 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500"
-            />
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-slate-700 mb-1">Baños</label>
-            <input
-              type="number"
-              value={form.baths}
-              onChange={(e) => setForm((f) => ({ ...f, baths: Number(e.target.value) }))}
-              min="0"
-              className="w-full px-3 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500"
-            />
-          </div>
-        </div>
-
-        <div className="grid grid-cols-2 gap-4">
-          <div>
-            <label className="block text-sm font-medium text-slate-700 mb-1">Superficie (m²)</label>
-            <input
-              type="number"
-              value={form.area}
-              onChange={(e) => setForm((f) => ({ ...f, area: Number(e.target.value) }))}
-              min="1"
-              className="w-full px-3 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500"
-            />
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-slate-700 mb-1">URL de imagen</label>
-            <input
-              type="url"
-              value={form.image}
-              onChange={(e) => setForm((f) => ({ ...f, image: e.target.value }))}
-              placeholder="https://images.unsplash.com/..."
-              className="w-full px-3 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500"
-            />
-          </div>
+        <div>
+          <label className="block text-sm font-medium text-slate-700 mb-1">Baños</label>
+          <input
+            type="number" value={form.baths} min="0"
+            onChange={(e) => update("baths", Number(e.target.value))}
+            className="w-full px-3 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500"
+          />
         </div>
       </div>
 
-      <div className="mt-8 flex items-center gap-3">
+      <div className="grid grid-cols-3 gap-4">
+        <div>
+          <label className="block text-sm font-medium text-slate-700 mb-1">Superficie (m²)</label>
+          <input
+            type="number" value={form.area} min="1"
+            onChange={(e) => update("area", Number(e.target.value))}
+            className="w-full px-3 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500"
+          />
+        </div>
+        <div>
+          <label className="block text-sm font-medium text-slate-700 mb-1">Antigüedad</label>
+          <input
+            type="text" value={form.antiguedad}
+            onChange={(e) => update("antiguedad", e.target.value)}
+            placeholder="Ej: 5 años"
+            className="w-full px-3 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500"
+          />
+        </div>
+        <div>
+          <label className="block text-sm font-medium text-slate-700 mb-1">Estado</label>
+          <select
+            value={form.estado}
+            onChange={(e) => update("estado", e.target.value)}
+            className="w-full px-3 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500"
+          >
+            {estados.map((s) => (<option key={s} value={s}>{s}</option>))}
+          </select>
+        </div>
+      </div>
+
+      <div>
+        <label className="block text-sm font-medium text-slate-700 mb-1">Imagen principal (URL)</label>
+        <input
+          type="url" value={form.image}
+          onChange={(e) => update("image", e.target.value)}
+          placeholder="https://images.unsplash.com/..."
+          className="w-full px-3 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500"
+        />
+        {form.image && (
+          <img src={form.image} alt="preview" className="mt-2 w-40 h-28 object-cover rounded-lg border border-gray-200" />
+        )}
+      </div>
+
+      <div>
+        <label className="block text-sm font-medium text-slate-700 mb-1">Galería de imágenes (URLs, una por línea)</label>
+        <textarea
+          value={form.images.join("\n")}
+          onChange={(e) => update("images", e.target.value.split("\n"))}
+          rows={4}
+          placeholder={"https://...\nhttps://..."}
+          className="w-full px-3 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500"
+        />
+        {form.images.filter((i) => i.trim()).length > 0 && (
+          <div className="mt-2 flex flex-wrap gap-2">
+            {form.images.filter((i) => i.trim()).map((img, i) => (
+              <img key={i} src={img} alt="" className="w-20 h-16 object-cover rounded-lg border border-gray-200" />
+            ))}
+          </div>
+        )}
+      </div>
+
+      <div>
+        <label className="block text-sm font-medium text-slate-700 mb-1">Descripción</label>
+        <textarea
+          value={form.description}
+          onChange={(e) => update("description", e.target.value)}
+          rows={4}
+          className="w-full px-3 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500"
+        />
+      </div>
+
+      <div>
+        <label className="block text-sm font-medium text-slate-700 mb-2">Ubicación en el mapa</label>
+        <AdminMapPicker
+          lat={form.latitude}
+          lng={form.longitude}
+          onPick={(lat, lng) => {
+            update("latitude", lat)
+            update("longitude", lng)
+          }}
+        />
+        <p className="mt-1 text-xs text-slate-400">
+          {form.latitude && form.longitude
+            ? `Lat: ${form.latitude.toFixed(5)} · Lng: ${form.longitude.toFixed(5)}`
+            : "Hacé clic en el mapa para fijar la ubicación."}
+        </p>
+      </div>
+
+      <label className="flex items-center gap-3 cursor-pointer">
+        <input
+          type="checkbox"
+          checked={form.published}
+          onChange={(e) => update("published", e.target.checked)}
+          className="w-4 h-4 accent-teal-700"
+        />
+        <span className="text-sm font-medium text-slate-700">Publicada (visible en el sitio)</span>
+      </label>
+
+      <div className="flex items-center gap-3">
         <button
           type="submit"
           disabled={saving}
-          className="px-6 py-2.5 bg-orange-500 hover:bg-orange-600 disabled:bg-orange-300 text-white font-semibold rounded-xl transition-colors"
+          className="px-6 py-2.5 bg-teal-700 hover:bg-teal-800 disabled:bg-teal-400 text-white font-semibold rounded-xl transition-colors"
         >
           {saving ? "Guardando..." : initial ? "Guardar cambios" : "Crear propiedad"}
         </button>
