@@ -60,7 +60,7 @@ export default function Hero({ totalProps, totalAgencies }: HeroProps) {
         >
           <div className="flex flex-col gap-3">
             <div className="flex justify-center">
-              <RadioTabs name="operacion" options={operaciones} />
+              <RadioTabs name="operacion" options={operaciones} defaultValue="venta" />
             </div>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
               <select

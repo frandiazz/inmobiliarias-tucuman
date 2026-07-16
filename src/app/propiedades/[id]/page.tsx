@@ -63,8 +63,37 @@ export default async function PropertyDetail({
   const shareUrl = `https://tucumaninmuebles.com/propiedades/${property.id}`
   const shareText = `Mirá esta propiedad: ${property.title} — ${property.price}`
 
+  const priceNumber = Number(property.price.replace(/[^0-9]/g, ""))
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    name: property.title,
+    image: property.image,
+    description: property.description ?? `Propiedad en ${property.zona}, Tucumán`,
+    brand: { "@type": "Brand", name: property.agency },
+    offers: {
+      "@type": "Offer",
+      price: Number.isFinite(priceNumber) ? priceNumber : undefined,
+      priceCurrency: "USD",
+      availability: "https://schema.org/InStock",
+      url: shareUrl,
+    },
+  }
+
+  const breadcrumbLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Inicio", item: "https://tucumaninmuebles.com" },
+      { "@type": "ListItem", position: 2, name: "Propiedades", item: "https://tucumaninmuebles.com/propiedades" },
+      { "@type": "ListItem", position: 3, name: property.title, item: shareUrl },
+    ],
+  }
+
   return (
     <div className="min-h-screen bg-slate-50">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }} />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <Breadcrumbs
           items={[
@@ -104,15 +133,8 @@ export default async function PropertyDetail({
                 Descripción
               </h2>
               <p className="text-slate-600 leading-relaxed">
-                Hermosa propiedad ubicada en {property.zona}, una de las zonas más exclusivas de
-                Tucumán. Cuenta con excelente iluminación natural, terminaciones
-                de primera calidad y una distribución funcional pensada para el
-                confort familiar. La propiedad se encuentra en óptimo estado de
-                conservación y lista para habitar. Cercana a centros comerciales,
-                colegios, hospitales y con fácil acceso a las principales vías de
-                comunicación de la ciudad. Ideal tanto para inversión como para
-                vivienda permanente. Se aceptan consultas y visitas sin
-                compromiso.
+                {property.description ??
+                  `Hermosa propiedad ubicada en ${property.zona}, una de las zonas más exclusivas de Tucumán. Cuenta con excelente iluminación natural, terminaciones de primera calidad y una distribución funcional pensada para el confort familiar. La propiedad se encuentra en óptimo estado de conservación y lista para habitar. Cercana a centros comerciales, colegios, hospitales y con fácil acceso a las principales vías de comunicación de la ciudad. Ideal tanto para inversión como para vivienda permanente. Se aceptan consultas y visitas sin compromiso.`}
               </p>
             </section>
 
@@ -136,7 +158,7 @@ export default async function PropertyDetail({
                   </div>
                   <div>
                     <p className="text-xs text-slate-500">Antigüedad</p>
-                    <p className="font-semibold text-slate-800">5 años</p>
+                    <p className="font-semibold text-slate-800">{property.antiguedad ?? "A consular"}</p>
                   </div>
                 </div>
                 <div className="flex items-center gap-3 bg-white rounded-xl p-4 border border-gray-100">
@@ -145,7 +167,7 @@ export default async function PropertyDetail({
                   </div>
                   <div>
                     <p className="text-xs text-slate-500">Estado</p>
-                    <p className="font-semibold text-slate-800">Excelente</p>
+                    <p className="font-semibold text-slate-800">{property.estado ?? "Excelente"}</p>
                   </div>
                 </div>
               </div>
@@ -155,7 +177,13 @@ export default async function PropertyDetail({
               <h2 className="text-lg font-semibold text-slate-800 mb-3">
                 Ubicación
               </h2>
-              <PropertyMap title={property.title} address={`${property.zona}, Tucumán, Argentina`} className="h-80 w-full" />
+              <PropertyMap
+                lat={property.latitude ?? undefined}
+                lng={property.longitude ?? undefined}
+                title={property.title}
+                address={`${property.zona}, Tucumán, Argentina`}
+                className="h-80 w-full"
+              />
             </section>
 
             {similares.length > 0 && (

@@ -11,6 +11,7 @@ export interface Property {
   id: number
   agencyId: number
   image: string
+  images?: string[]
   operation: "Venta" | "Alquiler"
   price: string
   title: string
@@ -21,4 +22,9 @@ export interface Property {
   createdAt: string
   zona: string
   tipo: string
+  description?: string | null
+  latitude?: number | null
+  longitude?: number | null
+  antiguedad?: string | null
+  estado?: string | null
 }

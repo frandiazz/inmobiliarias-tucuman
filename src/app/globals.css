@@ -757,9 +757,16 @@ body {
 }
 
 /* ── Map ── */
-.leaflet-control-attribution {
-  font-size: 10px;
-  background: rgba(255, 255, 255, 0.8);
+/* ── Respect reduced motion ── */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
 }
 
 /* Teal zoom controls */

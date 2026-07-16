@@ -238,5 +238,10 @@ function mapProperty(row: any): Property {
     createdAt: row.created_at,
     zona: row.zona,
     tipo: row.tipo,
+    description: row.description ?? null,
+    latitude: row.latitude ?? null,
+    longitude: row.longitude ?? null,
+    antiguedad: row.antiguedad ?? null,
+    estado: row.estado ?? null,
   }
 }
