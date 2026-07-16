@@ -1,9 +1,10 @@
 "use client"
 
+import { useEffect, useState } from "react"
 import { useRouter, usePathname } from "next/navigation"
 import Link from "next/link"
 import { LayoutDashboard, Home, Building2, PlusCircle, LogOut } from "lucide-react"
-import { logoutAction } from "@/app/admin/actions"
+import { logoutAction, checkAuth } from "@/app/admin/actions"
 
 const sidebarLinks = [
   { href: "/admin", label: "Dashboard", icon: LayoutDashboard },
@@ -16,13 +17,37 @@ const sidebarLinks = [
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   const router = useRouter()
   const pathname = usePathname()
+  const [status, setStatus] = useState<"loading" | "ok">("loading")
 
-  async function handleLogout() {
-    await logoutAction()
-  }
+  useEffect(() => {
+    if (pathname === "/admin/login") {
+      setStatus("ok")
+      return
+    }
+    let active = true
+    checkAuth().then((ok) => {
+      if (!active) return
+      if (!ok) {
+        router.replace("/admin/login")
+      } else {
+        setStatus("ok")
+      }
+    })
+    return () => {
+      active = false
+    }
+  }, [pathname, router])
 
   if (pathname === "/admin/login") {
     return <>{children}</>
+  }
+
+  if (status !== "ok") {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-slate-100">
+        <div className="w-8 h-8 border-4 border-teal-800 border-t-transparent rounded-full animate-spin" />
+      </div>
+    )
   }
 
   return (
@@ -57,7 +82,9 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             Ver sitio público
           </Link>
           <button
-            onClick={handleLogout}
+            onClick={async () => {
+              await logoutAction()
+            }}
             className="flex items-center justify-center gap-2 w-full py-2.5 rounded-xl text-sm text-red-500 hover:bg-red-50 transition-colors"
           >
             <LogOut className="w-4 h-4" />
@@ -73,7 +100,9 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           </div>
           <div className="ml-auto flex items-center gap-4">
             <button
-              onClick={handleLogout}
+              onClick={async () => {
+                await logoutAction()
+              }}
               className="flex items-center gap-2 text-sm text-slate-500 hover:text-red-600 transition-colors lg:hidden"
             >
               <LogOut className="w-4 h-4" />

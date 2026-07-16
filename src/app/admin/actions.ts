@@ -64,3 +64,8 @@ export async function logoutAction() {
   store.delete(COOKIE_NAME)
   redirect("/admin/login")
 }
+
+export async function checkAuth(): Promise<boolean> {
+  const store = await cookies()
+  return verifyToken(store.get(COOKIE_NAME)?.value)
+}
