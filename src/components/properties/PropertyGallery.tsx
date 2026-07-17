@@ -1,6 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
+import { createPortal } from "react-dom"
 import Image from "next/image"
 import { ChevronLeft, ChevronRight, X } from "lucide-react"
 
@@ -12,9 +13,12 @@ interface PropertyGalleryProps {
 export default function PropertyGallery({ images, title }: PropertyGalleryProps) {
   const [selected, setSelected] = useState(0)
   const [lightbox, setLightbox] = useState(false)
+  const [mounted, setMounted] = useState(false)
 
   const prev = () => setSelected((i) => (i === 0 ? images.length - 1 : i - 1))
   const next = () => setSelected((i) => (i === images.length - 1 ? 0 : i + 1))
+
+  useEffect(() => setMounted(true), [])
 
   useEffect(() => {
     if (!lightbox) return
@@ -24,10 +28,11 @@ export default function PropertyGallery({ images, title }: PropertyGalleryProps)
       if (e.key === "ArrowRight") next()
     }
     window.addEventListener("keydown", onKey)
+    const prevOverflow = document.body.style.overflow
     document.body.style.overflow = "hidden"
     return () => {
       window.removeEventListener("keydown", onKey)
-      document.body.style.overflow = ""
+      document.body.style.overflow = prevOverflow
     }
   }, [lightbox])
 
@@ -64,26 +69,31 @@ export default function PropertyGallery({ images, title }: PropertyGalleryProps)
         ))}
       </div>
 
-      {lightbox && (
-        <div className="fixed inset-0 z-50 bg-black/90 flex items-center justify-center p-4" onClick={() => setLightbox(false)}>
-          <button className="absolute top-4 right-4 bg-white/10 hover:bg-white/20 text-white p-2 rounded-full" aria-label="Cerrar">
+      {mounted && lightbox && createPortal(
+        <div
+          className="fixed inset-0 z-[100] bg-black/95 flex items-center justify-center p-4"
+          onClick={() => setLightbox(false)}
+          style={{ position: "fixed", top: 0, left: 0, right: 0, bottom: 0 }}
+        >
+          <button className="absolute top-4 right-4 bg-white/10 hover:bg-white/20 text-white p-2 rounded-full z-10" aria-label="Cerrar">
             <X className="w-6 h-6" />
           </button>
-          <button onClick={(e) => { e.stopPropagation(); prev() }} className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/10 hover:bg-white/20 text-white p-3 rounded-full" aria-label="Anterior">
+          <button onClick={(e) => { e.stopPropagation(); prev() }} className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/10 hover:bg-white/20 text-white p-3 rounded-full z-10" aria-label="Anterior">
             <ChevronLeft className="w-6 h-6" />
           </button>
-          <div className="flex items-center justify-center max-h-[90vh] max-w-[90vw]">
+          <div className="flex items-center justify-center max-h-[92vh] max-w-[92vw]">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src={main}
               alt={title}
-              className="max-h-[90vh] max-w-[90vw] object-contain rounded-lg"
+              className="max-h-[92vh] max-w-[92vw] object-contain rounded-lg"
             />
           </div>
-          <button onClick={(e) => { e.stopPropagation(); next() }} className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/10 hover:bg-white/20 text-white p-3 rounded-full" aria-label="Siguiente">
+          <button onClick={(e) => { e.stopPropagation(); next() }} className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/10 hover:bg-white/20 text-white p-3 rounded-full z-10" aria-label="Siguiente">
             <ChevronRight className="w-6 h-6" />
           </button>
-        </div>
+        </div>,
+        document.body
       )}
     </div>
   )
