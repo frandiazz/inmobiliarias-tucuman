@@ -1,5 +1,8 @@
-import { supabase } from "./supabase"
+import { supabase, supabaseAdmin } from "./supabase"
 import type { Agency, Property } from "@/utils/types"
+
+// Para escrituras del admin usamos supabaseAdmin (service_role) que bypasea RLS.
+const db = supabaseAdmin
 
 // ── Agency helpers ──
 
@@ -180,37 +183,37 @@ export async function getLeads(): Promise<Lead[]> {
 }
 
 export async function deleteLead(id: number): Promise<boolean> {
-  const { error } = await supabase.from("leads").delete().eq("id", id)
+  const { error } = await db.from("leads").delete().eq("id", id)
   return !error
 }
 
 export async function markLeadRead(id: number, read: boolean): Promise<boolean> {
-  const { error } = await supabase.from("leads").update({ read }).eq("id", id)
+  const { error } = await db.from("leads").update({ read }).eq("id", id)
   return !error
 }
 
 // ── Property published toggle ──
 
 export async function setPropertyPublished(id: number, published: boolean): Promise<boolean> {
-  const { error } = await supabase.from("properties").update({ published }).eq("id", id)
+  const { error } = await db.from("properties").update({ published }).eq("id", id)
   return !error
 }
 
 // ── Admin CRUD ──
 
 export async function addAgency(data: Omit<Agency, "id">): Promise<Agency | null> {
-  const { data: result, error } = await supabase.from("agencies").insert(data).select().single()
+  const { data: result, error } = await db.from("agencies").insert(data).select().single()
   if (error) { console.error(error); return null }
   return mapAgency(result)
 }
 
 export async function deleteAgency(id: number): Promise<boolean> {
-  const { error } = await supabase.from("agencies").delete().eq("id", id)
+  const { error } = await db.from("agencies").delete().eq("id", id)
   return !error
 }
 
 export async function updateAgency(id: number, data: any): Promise<boolean> {
-  const { error } = await supabase.from("agencies").update(data).eq("id", id)
+  const { error } = await db.from("agencies").update(data).eq("id", id)
   return !error
 }
 
@@ -236,7 +239,7 @@ export async function addProperty(data: any): Promise<any | null> {
     estado: data.estado ?? null,
     published: data.published ?? true,
   }
-  const { data: result, error } = await supabase.from("properties").insert(row).select().single()
+  const { data: result, error } = await db.from("properties").insert(row).select().single()
   if (error) {
     console.error("addProperty error:", error.message)
     return null
@@ -265,7 +268,7 @@ export async function updateProperty(id: number, data: any): Promise<boolean> {
   if (data.agencyId !== undefined) row.agency_id = data.agencyId
   if (data.agency !== undefined) row.agency_name = data.agency
 
-  const { error } = await supabase.from("properties").update(row).eq("id", id)
+  const { error } = await db.from("properties").update(row).eq("id", id)
   if (error) {
     // Columna faltante en la DB suele indicar esquema desactualizado.
     // Ver https://github.com/.../prisma/migrate_missing_columns.sql
@@ -276,7 +279,7 @@ export async function updateProperty(id: number, data: any): Promise<boolean> {
 }
 
 export async function deleteProperty(id: number): Promise<boolean> {
-  const { error } = await supabase.from("properties").delete().eq("id", id)
+  const { error } = await db.from("properties").delete().eq("id", id)
   return !error
 }
 
@@ -284,7 +287,7 @@ export async function deleteProperty(id: number): Promise<boolean> {
 
 export async function addSubscriber(email: string): Promise<"ok" | "exists" | "error"> {
   if (!email || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) return "error"
-  const { error } = await supabase.from("subscribers").upsert(
+  const { error } = await db.from("subscribers").upsert(
     { email },
     { onConflict: "email" }
   )
