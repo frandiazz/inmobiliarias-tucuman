@@ -3,6 +3,7 @@ import { getAgencies, getProperties, deleteAgency } from "@/lib/db"
 import { Plus, Pencil, Trash2 } from "lucide-react"
 import { redirect } from "next/navigation"
 import ConfirmDelete from "@/components/admin/ConfirmDelete"
+import AgencyAvatar from "@/components/agencies/AgencyAvatar"
 
 export default async function AdminAgencias() {
   const [agencies, properties] = await Promise.all([getAgencies(), getProperties()])
@@ -31,13 +32,9 @@ export default async function AdminAgencias() {
         {agencies.map((a) => (
           <div key={a.id} className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6">
             <div className="flex items-start justify-between">
-              <div className="flex items-center gap-4">
-                <div className="w-14 h-14 rounded-full bg-teal-100 flex items-center justify-center shrink-0">
-                  <span className="text-xl font-bold text-teal-800">
-                    {a.name.split(" ").map((w) => w[0]).slice(0, 2).join("")}
-                  </span>
-                </div>
-                <div>
+               <div className="flex items-center gap-4">
+                 <AgencyAvatar name={a.name} logoUrl={a.logoUrl} size={56} />
+                 <div>
                   <h3 className="font-semibold text-slate-800">{a.name}</h3>
                   <p className="text-sm text-slate-500">
                     {countByAgency(a.id)} propiedades
