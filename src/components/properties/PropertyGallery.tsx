@@ -72,12 +72,14 @@ export default function PropertyGallery({ images, title }: PropertyGalleryProps)
           <button onClick={(e) => { e.stopPropagation(); prev() }} className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/10 hover:bg-white/20 text-white p-3 rounded-full" aria-label="Anterior">
             <ChevronLeft className="w-6 h-6" />
           </button>
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src={main}
-            alt={title}
-            className="max-h-[90vh] max-w-[90vw] object-contain rounded-lg"
-          />
+          <div className="flex items-center justify-center max-h-[90vh] max-w-[90vw]">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={main}
+              alt={title}
+              className="max-h-[90vh] max-w-[90vw] object-contain rounded-lg"
+            />
+          </div>
           <button onClick={(e) => { e.stopPropagation(); next() }} className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/10 hover:bg-white/20 text-white p-3 rounded-full" aria-label="Siguiente">
             <ChevronRight className="w-6 h-6" />
           </button>
