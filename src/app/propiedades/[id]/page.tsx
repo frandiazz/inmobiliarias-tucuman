@@ -211,6 +211,7 @@ export default async function PropertyDetail({
                 whatsapp={agency?.whatsapp}
                 email={agency?.email}
                 phone={agency?.phone}
+                agencyLogo={agency?.logoUrl}
               />
             </div>
           </div>

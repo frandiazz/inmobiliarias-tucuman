@@ -4,6 +4,7 @@ import { MapPin } from "lucide-react"
 import { getAgencies, getPropertiesByAgency } from "@/lib/db"
 import PropertyCard from "@/components/properties/PropertyCard"
 import Breadcrumbs from "@/components/ui/Breadcrumbs"
+import AgencyAvatar from "@/components/agencies/AgencyAvatar"
 
 const newCutoff = Date.now() - 7 * 24 * 60 * 60 * 1000
 
@@ -34,12 +35,6 @@ export default async function AgencyPage({
 
   const properties = await getPropertiesByAgency(agency.id)
 
-  const initials = name
-    .split(" ")
-    .map((w) => w[0])
-    .slice(0, 2)
-    .join("")
-
   return (
     <main className="min-h-screen bg-slate-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8">
@@ -54,8 +49,8 @@ export default async function AgencyPage({
       <section className="bg-gradient-to-r from-teal-800 to-teal-700 py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center gap-5 animate-fade-in-up">
-            <div className="w-20 h-20 rounded-full bg-white/20 flex items-center justify-center shrink-0">
-              <span className="text-3xl font-bold text-white">{initials}</span>
+            <div className="shrink-0 ring-4 ring-white/30 rounded-full">
+              <AgencyAvatar name={name} logoUrl={agency.logoUrl} size={80} className="bg-white/20" />
             </div>
             <div>
               <h1 className="text-3xl font-bold text-white">{name}</h1>

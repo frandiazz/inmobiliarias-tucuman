@@ -51,6 +51,7 @@ export default async function InmobiliariasPage() {
                 key={agency.id}
                 name={agency.name}
                 count={counts[agency.name] ?? 0}
+                logoUrl={agency.logoUrl}
               />
             ))}
           </div>

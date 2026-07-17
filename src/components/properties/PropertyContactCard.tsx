@@ -1,31 +1,35 @@
-import { Mail, Building2 } from "lucide-react"
+import { Mail } from "lucide-react"
+import Link from "next/link"
 import type { Property } from "./types"
+import AgencyAvatar from "@/components/agencies/AgencyAvatar"
 
 interface ContactCardProps {
   property: Property
   whatsapp?: string
   email?: string
   phone?: string
+  agencyLogo?: string | null
 }
 
-export default function ContactCard({ property, whatsapp, email, phone }: ContactCardProps) {
+export default function ContactCard({ property, whatsapp, email, phone, agencyLogo }: ContactCardProps) {
   const whatsappNumber = whatsapp ?? "5493815555555"
   const whatsappMsg = encodeURIComponent(
     `Hola, me interesa la propiedad: ${property.title} (${property.price})`
   )
+  const agencyHref = `/inmobiliarias/${encodeURIComponent(property.agency)}`
 
   return (
     <aside className="bg-white rounded-2xl shadow-lg p-6 border border-gray-100">
-      <div className="flex items-center gap-3">
-        <div className="w-12 h-12 rounded-full bg-teal-100 flex items-center justify-center shrink-0">
-          <Building2 className="w-6 h-6 text-teal-800" />
-        </div>
+      <Link href={agencyHref} className="flex items-center gap-3 group">
+        <AgencyAvatar name={property.agency} logoUrl={agencyLogo} size={48} />
         <div>
           <p className="text-sm text-slate-500">Publicado por</p>
-          <p className="font-semibold text-slate-800">{property.agency}</p>
+          <p className="font-semibold text-slate-800 group-hover:text-teal-800 transition-colors">
+            {property.agency}
+          </p>
           {phone && <p className="text-xs text-slate-400">{phone}</p>}
         </div>
-      </div>
+      </Link>
 
       <hr className="my-5 border-gray-100" />
 

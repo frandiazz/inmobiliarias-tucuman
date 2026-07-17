@@ -23,9 +23,10 @@ export default async function EditAgencyPage({
     const whatsapp = String(formData.get("whatsapp") ?? "").trim()
     const email = String(formData.get("email") ?? "").trim()
     const description = String(formData.get("description") ?? "").trim()
+    const logoUrl = String(formData.get("logoUrl") ?? "").trim()
 
     if (name) {
-      await updateAgency(agencyId, { name, phone, whatsapp, email, description })
+      await updateAgency(agencyId, { name, phone, whatsapp, email, description, logo_url: logoUrl || null })
     }
     redirect("/admin/agencias")
   }
@@ -94,6 +95,24 @@ export default async function EditAgencyPage({
             defaultValue={agency.description}
             className="w-full px-4 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500 resize-none"
           />
+        </div>
+
+        <div>
+          <label className="block text-sm font-medium text-slate-600 mb-1.5">Logo / Foto de perfil (URL)</label>
+          <input
+            type="url"
+            name="logoUrl"
+            defaultValue={agency.logoUrl ?? ""}
+            placeholder="https://images.unsplash.com/..."
+            className="w-full px-4 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500"
+          />
+          {agency.logoUrl && (
+            <img
+              src={agency.logoUrl}
+              alt="logo preview"
+              className="mt-3 w-20 h-20 rounded-full object-cover border border-gray-200"
+            />
+          )}
         </div>
 
         <div className="flex gap-3 pt-2">

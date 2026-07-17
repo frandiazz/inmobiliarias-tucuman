@@ -202,7 +202,15 @@ export async function setPropertyPublished(id: number, published: boolean): Prom
 // ── Admin CRUD ──
 
 export async function addAgency(data: Omit<Agency, "id">): Promise<Agency | null> {
-  const { data: result, error } = await db.from("agencies").insert(data).select().single()
+  const row = {
+    name: data.name,
+    phone: data.phone,
+    whatsapp: data.whatsapp,
+    email: data.email,
+    description: data.description,
+    logo_url: data.logoUrl ?? null,
+  }
+  const { data: result, error } = await db.from("agencies").insert(row).select().single()
   if (error) { console.error(error); return null }
   return mapAgency(result)
 }
@@ -308,6 +316,7 @@ function mapAgency(row: any): Agency {
     whatsapp: row.whatsapp,
     email: row.email,
     description: row.description,
+    logoUrl: row.logo_url ?? null,
   }
 }
 

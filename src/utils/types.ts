@@ -5,6 +5,7 @@ export interface Agency {
   whatsapp: string
   email: string
   description: string
+  logoUrl?: string | null
 }
 
 export interface Property {

@@ -3,15 +3,16 @@
 import { useRef, type MouseEvent } from "react"
 import { ArrowRight } from "lucide-react"
 import Link from "next/link"
+import AgencyAvatar from "./AgencyAvatar"
 
 interface AgencyCardProps {
   name: string
   count: number
+  logoUrl?: string | null
 }
 
-export default function AgencyCard({ name, count }: AgencyCardProps) {
+export default function AgencyCard({ name, count, logoUrl }: AgencyCardProps) {
   const cardRef = useRef<HTMLDivElement>(null)
-  const initials = name.split(" ").map((w) => w[0]).slice(0, 2).join("")
 
   function handleMouseMove(e: MouseEvent<HTMLDivElement>) {
     const card = cardRef.current
@@ -40,9 +41,7 @@ export default function AgencyCard({ name, count }: AgencyCardProps) {
       className="bg-white rounded-2xl border border-gray-100 shadow-md p-6 flex flex-col items-center text-center transition-shadow duration-300"
       style={{ transition: "transform 0.1s ease" }}
     >
-      <div className="w-20 h-20 rounded-full bg-teal-100 flex items-center justify-center">
-        <span className="text-2xl font-bold text-teal-800">{initials}</span>
-      </div>
+      <AgencyAvatar name={name} logoUrl={logoUrl} size={80} />
 
       <h3 className="mt-4 text-lg font-semibold text-slate-800">{name}</h3>
 

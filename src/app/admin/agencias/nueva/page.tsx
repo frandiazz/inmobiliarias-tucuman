@@ -11,9 +11,10 @@ export default async function NuevaAgencia() {
     const whatsapp = String(formData.get("whatsapp") ?? "").trim()
     const email = String(formData.get("email") ?? "").trim()
     const description = String(formData.get("description") ?? "").trim()
+    const logoUrl = String(formData.get("logoUrl") ?? "").trim()
 
     if (name) {
-      await addAgency({ name, phone, whatsapp, email, description })
+      await addAgency({ name, phone, whatsapp, email, description, logoUrl: logoUrl || null })
     }
     redirect("/admin/agencias")
   }
@@ -76,6 +77,17 @@ export default async function NuevaAgencia() {
             rows={3}
             className="w-full px-3 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500"
           />
+        </div>
+
+        <div>
+          <label className="block text-sm font-medium text-slate-700 mb-1">Logo / Foto de perfil (URL)</label>
+          <input
+            type="url"
+            name="logoUrl"
+            placeholder="https://images.unsplash.com/..."
+            className="w-full px-3 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500"
+          />
+          <p className="mt-1 text-xs text-slate-400">Pegá la URL de la imagen del logo de la agencia.</p>
         </div>
 
         <div className="flex items-center gap-3">
