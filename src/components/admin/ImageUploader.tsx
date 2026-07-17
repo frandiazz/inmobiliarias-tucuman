@@ -26,9 +26,16 @@ export default function ImageUploader({
   inputName,
 }: ImageUploaderProps) {
   const inputRef = useRef<HTMLInputElement>(null)
+  const hiddenRef = useRef<HTMLInputElement>(null)
   const [uploading, setUploading] = useState(false)
   const [error, setError] = useState("")
   const [current, setCurrent] = useState(value ?? "")
+
+  function setUrl(url: string) {
+    setCurrent(url)
+    if (hiddenRef.current) hiddenRef.current.value = url
+    onChange?.(url)
+  }
 
   async function handleFile(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0]
@@ -42,8 +49,7 @@ export default function ImageUploader({
     setUploading(false)
     if (res.url) {
       if (current) await deleteImageAction(current)
-      setCurrent(res.url)
-      onChange?.(res.url)
+      setUrl(res.url)
     } else {
       setError(res.error || "No se pudo subir. Intentá de nuevo.")
     }
@@ -71,8 +77,7 @@ export default function ImageUploader({
             type="button"
             onClick={async () => {
               await deleteImageAction(current)
-              setCurrent("")
-              onChange?.("")
+              setUrl("")
             }}
             className="absolute top-1 right-1 bg-black/50 hover:bg-black/70 text-white rounded-full p-1"
             aria-label="Quitar"
@@ -95,7 +100,9 @@ export default function ImageUploader({
         <input ref={inputRef} type="file" accept="image/*" className="hidden" onChange={handleFile} />
         {error && <p className="text-xs text-red-500">{error}</p>}
       </div>
-      {inputName && <input type="hidden" name={inputName} value={current} />}
+      {inputName && (
+        <input ref={hiddenRef} type="hidden" name={inputName} defaultValue={current} />
+      )}
     </div>
   )
 }
