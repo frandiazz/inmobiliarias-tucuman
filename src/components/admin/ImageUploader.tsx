@@ -28,6 +28,7 @@ export default function ImageUploader({
   const inputRef = useRef<HTMLInputElement>(null)
   const [uploading, setUploading] = useState(false)
   const [error, setError] = useState("")
+  const [current, setCurrent] = useState(value ?? "")
 
   async function handleFile(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0]
@@ -40,7 +41,8 @@ export default function ImageUploader({
     const res = await uploadImageAction(fd)
     setUploading(false)
     if (res.url) {
-      if (value) await deleteImageAction(value)
+      if (current) await deleteImageAction(current)
+      setCurrent(res.url)
       onChange?.(res.url)
     } else {
       setError(res.error || "No se pudo subir. Intentá de nuevo.")
@@ -58,17 +60,18 @@ export default function ImageUploader({
         }`}
         style={{ width: size, height: size }}
       >
-        {value ? (
+        {current ? (
           // eslint-disable-next-line @next/next/no-img-element
-          <img src={value} alt="preview" className="w-full h-full object-cover" />
+          <img src={current} alt="preview" className="w-full h-full object-cover" />
         ) : (
           <span className="text-xs text-slate-400 text-center px-2">Sin imagen</span>
         )}
-        {value && (
+        {current && (
           <button
             type="button"
             onClick={async () => {
-              await deleteImageAction(value)
+              await deleteImageAction(current)
+              setCurrent("")
               onChange?.("")
             }}
             className="absolute top-1 right-1 bg-black/50 hover:bg-black/70 text-white rounded-full p-1"
@@ -92,7 +95,7 @@ export default function ImageUploader({
         <input ref={inputRef} type="file" accept="image/*" className="hidden" onChange={handleFile} />
         {error && <p className="text-xs text-red-500">{error}</p>}
       </div>
-      {inputName && <input type="hidden" name={inputName} value={value} />}
+      {inputName && <input type="hidden" name={inputName} value={current} />}
     </div>
   )
 }
