@@ -217,7 +217,7 @@ export default function PropertyForm({ initial, agencies, onSubmit }: PropertyFo
         <ImageUploader
           value={form.image}
           onChange={(url) => update("image", url)}
-          folder="propiedades"
+          folder=""
           label="Subir imagen principal"
           rounded="xl"
           size={112}
@@ -229,7 +229,7 @@ export default function PropertyForm({ initial, agencies, onSubmit }: PropertyFo
         <GalleryUploader
           value={form.images}
           onChange={(urls) => update("images", urls)}
-          folder="propiedades"
+          folder=""
         />
       </div>
 

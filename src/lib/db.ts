@@ -263,7 +263,7 @@ export async function updateProperty(id: number, data: any): Promise<boolean> {
   if (data.beds !== undefined) row.beds = data.beds
   if (data.baths !== undefined) row.baths = data.baths
   if (data.area !== undefined) row.area = data.area
-  if (data.image !== undefined) row.image = data.image
+  if (data.image !== undefined && data.image !== "") row.image = data.image
   if (data.images !== undefined) row.images = data.images
   if (data.zona !== undefined) row.zona = data.zona
   if (data.tipo !== undefined) row.tipo = data.tipo
