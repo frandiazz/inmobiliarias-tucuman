@@ -1,48 +1,35 @@
-"use client"
+import { getAgencies, addAgency } from "@/lib/db"
+import { redirect } from "next/navigation"
 
-import { useState } from "react"
-import { useRouter } from "next/navigation"
+export default async function NuevaAgencia() {
+  const agencies = await getAgencies()
 
-const initialForm = {
-  name: "",
-  phone: "",
-  whatsapp: "",
-  email: "",
-  description: "",
-}
+  async function handleSubmit(formData: FormData) {
+    "use server"
+    const name = String(formData.get("name") ?? "").trim()
+    const phone = String(formData.get("phone") ?? "").trim()
+    const whatsapp = String(formData.get("whatsapp") ?? "").trim()
+    const email = String(formData.get("email") ?? "").trim()
+    const description = String(formData.get("description") ?? "").trim()
 
-export default function NuevaAgencia() {
-  const router = useRouter()
-  const [saving, setSaving] = useState(false)
-  const [form, setForm] = useState(initialForm)
-
-  async function handleSubmit(e: React.FormEvent) {
-    e.preventDefault()
-    setSaving(true)
-
-    const res = await fetch("/admin/agencias/api", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(form),
-    })
-
-    if (res.ok) {
-      router.push("/admin/agencias")
-      router.refresh()
+    if (name) {
+      await addAgency({ name, phone, whatsapp, email, description })
     }
-    setSaving(false)
+    redirect("/admin/agencias")
   }
 
   return (
     <div>
       <h1 className="text-2xl font-bold text-slate-800 mb-6">Nueva Agencia</h1>
-      <form onSubmit={handleSubmit} className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 max-w-2xl space-y-6">
+      <form
+        action={handleSubmit}
+        className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 max-w-2xl space-y-6"
+      >
         <div>
           <label className="block text-sm font-medium text-slate-700 mb-1">Nombre de la agencia</label>
           <input
             type="text"
-            value={form.name}
-            onChange={(e) => setForm((f) => ({ ...f, name: e.target.value }))}
+            name="name"
             className="w-full px-3 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500"
             required
           />
@@ -53,8 +40,7 @@ export default function NuevaAgencia() {
             <label className="block text-sm font-medium text-slate-700 mb-1">Teléfono</label>
             <input
               type="text"
-              value={form.phone}
-              onChange={(e) => setForm((f) => ({ ...f, phone: e.target.value }))}
+              name="phone"
               placeholder="381 555-0100"
               className="w-full px-3 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500"
               required
@@ -64,8 +50,7 @@ export default function NuevaAgencia() {
             <label className="block text-sm font-medium text-slate-700 mb-1">WhatsApp (con código país)</label>
             <input
               type="text"
-              value={form.whatsapp}
-              onChange={(e) => setForm((f) => ({ ...f, whatsapp: e.target.value }))}
+              name="whatsapp"
               placeholder="5493815550100"
               className="w-full px-3 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500"
               required
@@ -77,8 +62,7 @@ export default function NuevaAgencia() {
           <label className="block text-sm font-medium text-slate-700 mb-1">Email</label>
           <input
             type="email"
-            value={form.email}
-            onChange={(e) => setForm((f) => ({ ...f, email: e.target.value }))}
+            name="email"
             placeholder="info@inmobiliaria.com"
             className="w-full px-3 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500"
             required
@@ -88,8 +72,7 @@ export default function NuevaAgencia() {
         <div>
           <label className="block text-sm font-medium text-slate-700 mb-1">Descripción</label>
           <textarea
-            value={form.description}
-            onChange={(e) => setForm((f) => ({ ...f, description: e.target.value }))}
+            name="description"
             rows={3}
             className="w-full px-3 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500"
           />
@@ -98,14 +81,13 @@ export default function NuevaAgencia() {
         <div className="flex items-center gap-3">
           <button
             type="submit"
-            disabled={saving}
-            className="px-6 py-2.5 bg-orange-500 hover:bg-orange-600 disabled:bg-orange-300 text-white font-semibold rounded-xl transition-colors"
+            className="px-6 py-2.5 bg-teal-700 hover:bg-teal-800 text-white font-semibold rounded-xl transition-colors"
           >
-            {saving ? "Guardando..." : "Crear agencia"}
+            Crear agencia
           </button>
           <button
             type="button"
-            onClick={() => router.back()}
+            onClick={() => history.back()}
             className="px-6 py-2.5 border border-gray-200 text-slate-600 font-medium rounded-xl hover:bg-slate-50 transition-colors"
           >
             Cancelar
