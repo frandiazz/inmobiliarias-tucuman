@@ -2,7 +2,7 @@
 
 import { useRef, useState } from "react"
 import { Upload, Loader2, X } from "lucide-react"
-import { uploadImage, deleteImage } from "@/lib/storage"
+import { uploadImageAction, deleteImageAction } from "@/app/admin/upload-action"
 
 interface ImageUploaderProps {
   value?: string
@@ -34,13 +34,16 @@ export default function ImageUploader({
     if (!file) return
     setError("")
     setUploading(true)
-    const url = await uploadImage(file, folder)
+    const fd = new FormData()
+    fd.append("file", file)
+    fd.append("folder", folder)
+    const res = await uploadImageAction(fd)
     setUploading(false)
-    if (url) {
-      if (value) await deleteImage(value)
-      onChange?.(url)
+    if (res.url) {
+      if (value) await deleteImageAction(value)
+      onChange?.(res.url)
     } else {
-      setError("No se pudo subir. Intentá de nuevo.")
+      setError(res.error || "No se pudo subir. Intentá de nuevo.")
     }
     if (inputRef.current) inputRef.current.value = ""
   }
@@ -65,7 +68,7 @@ export default function ImageUploader({
           <button
             type="button"
             onClick={async () => {
-              await deleteImage(value)
+              await deleteImageAction(value)
               onChange?.("")
             }}
             className="absolute top-1 right-1 bg-black/50 hover:bg-black/70 text-white rounded-full p-1"

@@ -2,7 +2,7 @@
 
 import { useRef, useState } from "react"
 import { Upload, Loader2, X } from "lucide-react"
-import { uploadImage, deleteImage } from "@/lib/storage"
+import { uploadImageAction, deleteImageAction } from "@/app/admin/upload-action"
 
 interface GalleryUploaderProps {
   value: string[]
@@ -20,8 +20,11 @@ export default function GalleryUploader({ value, onChange, folder = "" }: Galler
     setUploading(true)
     const uploaded: string[] = []
     for (const file of files) {
-      const url = await uploadImage(file, folder)
-      if (url) uploaded.push(url)
+      const fd = new FormData()
+      fd.append("file", file)
+      fd.append("folder", folder)
+      const res = await uploadImageAction(fd)
+      if (res.url) uploaded.push(res.url)
     }
     setUploading(false)
     if (uploaded.length) onChange([...value, ...uploaded])
@@ -29,7 +32,7 @@ export default function GalleryUploader({ value, onChange, folder = "" }: Galler
   }
 
   async function remove(url: string) {
-    await deleteImage(url)
+    await deleteImageAction(url)
     onChange(value.filter((u) => u !== url))
   }
 

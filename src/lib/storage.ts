@@ -1,4 +1,4 @@
-import { supabase } from "./supabase"
+import { supabaseAdmin } from "./supabase"
 
 const BUCKET = "propiedades"
 
@@ -16,7 +16,7 @@ export async function uploadImage(file: File, folder = ""): Promise<string | nul
   const unique = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`
   const path = folder ? `${folder}/${unique}.${ext}` : `${unique}.${ext}`
 
-  const { data, error } = await supabase.storage
+  const { data, error } = await supabaseAdmin.storage
     .from(BUCKET)
     .upload(path, file, { cacheControl: "3600", upsert: false })
 
@@ -25,7 +25,7 @@ export async function uploadImage(file: File, folder = ""): Promise<string | nul
     return null
   }
 
-  const { data: urlData } = supabase.storage.from(BUCKET).getPublicUrl(data.path)
+  const { data: urlData } = supabaseAdmin.storage.from(BUCKET).getPublicUrl(data.path)
   return urlData.publicUrl
 }
 
@@ -34,7 +34,7 @@ export async function deleteImage(url: string): Promise<void> {
     const parts = url.split(`/${BUCKET}/`)
     if (parts.length < 2) return
     const path = parts[1].split("?")[0]
-    await supabase.storage.from(BUCKET).remove([path])
+    await supabaseAdmin.storage.from(BUCKET).remove([path])
   } catch {
     /* ignore */
   }
