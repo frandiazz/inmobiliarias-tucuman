@@ -1,15 +1,13 @@
 "use client"
 
 import { useEffect, useRef } from "react"
+import { TUCUMAN_CENTER, addGoogleTiles, createPinIcon } from "@/lib/mapConfig"
 
 interface AdminMapPickerProps {
   lat?: number | null
   lng?: number | null
   onPick: (lat: number, lng: number) => void
 }
-
-const defaultLat = -26.8083
-const defaultLng = -65.2176
 
 export default function AdminMapPicker({ lat, lng, onPick }: AdminMapPickerProps) {
   const mapRef = useRef<HTMLDivElement>(null)
@@ -27,22 +25,14 @@ export default function AdminMapPicker({ lat, lng, onPick }: AdminMapPickerProps
       await import("leaflet/dist/leaflet.css")
       if (cancelled || !mapRef.current) return
 
-      const startLat = lat ?? defaultLat
-      const startLng = lng ?? defaultLng
+      const startLat = lat ?? TUCUMAN_CENTER[0]
+      const startLng = lng ?? TUCUMAN_CENTER[1]
 
-      map = L.map(mapRef.current, { center: [startLat, startLng], zoom: 13 })
+      map = L.map(mapRef.current, { center: [startLat, startLng], zoom: 15 })
       const m = map
-      L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-        attribution: '&copy; OpenStreetMap',
-        maxZoom: 19,
-      }).addTo(m)
+      addGoogleTiles(L, m)
 
-      const pin = L.divIcon({
-        html: `<div style="width:18px;height:18px;border-radius:50%;background:#0f766e;border:3px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,.3)"></div>`,
-        className: "",
-        iconSize: [18, 18],
-        iconAnchor: [9, 9],
-      })
+      const pin = createPinIcon(L)
 
       if (lat != null && lng != null) {
         markerRef.current = L.marker([lat, lng], { icon: pin }).addTo(m)
