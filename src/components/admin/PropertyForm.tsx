@@ -4,6 +4,8 @@ import { useState } from "react"
 import { useRouter } from "next/navigation"
 import type { Property } from "@/utils/types"
 import AdminMapPicker from "./AdminMapPicker"
+import ImageUploader from "./ImageUploader"
+import GalleryUploader from "./GalleryUploader"
 
 const zonas = [
   "Yerba Buena", "Barrio Norte", "Barrio Sur", "Tafí Viejo",
@@ -211,34 +213,24 @@ export default function PropertyForm({ initial, agencies, onSubmit }: PropertyFo
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-slate-700 mb-1">Imagen principal (URL)</label>
-        <input
-          type="url" value={form.image}
-          onChange={(e) => update("image", e.target.value)}
-          placeholder="https://images.unsplash.com/..."
-          className="w-full px-3 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500"
+        <label className="block text-sm font-medium text-slate-700 mb-1">Imagen principal</label>
+        <ImageUploader
+          value={form.image}
+          onChange={(url) => update("image", url)}
+          folder="propiedades"
+          label="Subir imagen principal"
+          rounded="xl"
+          size={112}
         />
-        {form.image && (
-          <img src={form.image} alt="preview" className="mt-2 w-40 h-28 object-cover rounded-lg border border-gray-200" />
-        )}
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-slate-700 mb-1">Galería de imágenes (URLs, una por línea)</label>
-        <textarea
-          value={form.images.join("\n")}
-          onChange={(e) => update("images", e.target.value.split("\n"))}
-          rows={4}
-          placeholder={"https://...\nhttps://..."}
-          className="w-full px-3 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500"
+        <label className="block text-sm font-medium text-slate-700 mb-1">Galería de imágenes</label>
+        <GalleryUploader
+          value={form.images}
+          onChange={(urls) => update("images", urls)}
+          folder="propiedades"
         />
-        {form.images.filter((i) => i.trim()).length > 0 && (
-          <div className="mt-2 flex flex-wrap gap-2">
-            {form.images.filter((i) => i.trim()).map((img, i) => (
-              <img key={i} src={img} alt="" className="w-20 h-16 object-cover rounded-lg border border-gray-200" />
-            ))}
-          </div>
-        )}
       </div>
 
       <div>

@@ -1,5 +1,6 @@
 import { getAgencies, addAgency } from "@/lib/db"
 import { redirect } from "next/navigation"
+import ImageUploader from "@/components/admin/ImageUploader"
 
 export default async function NuevaAgencia() {
   const agencies = await getAgencies()
@@ -80,14 +81,14 @@ export default async function NuevaAgencia() {
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-slate-700 mb-1">Logo / Foto de perfil (URL)</label>
-          <input
-            type="url"
-            name="logoUrl"
-            placeholder="https://images.unsplash.com/..."
-            className="w-full px-3 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500"
+          <label className="block text-sm font-medium text-slate-700 mb-1">Logo / Foto de perfil</label>
+          <ImageUploader
+            folder="agencias"
+            label="Subir logo"
+            rounded="full"
+            size={80}
+            inputName="logoUrl"
           />
-          <p className="mt-1 text-xs text-slate-400">Pegá la URL de la imagen del logo de la agencia.</p>
         </div>
 
         <div className="flex items-center gap-3">

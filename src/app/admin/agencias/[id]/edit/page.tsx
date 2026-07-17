@@ -2,6 +2,7 @@ import Link from "next/link"
 import { redirect } from "next/navigation"
 import { getAgencyById, updateAgency } from "@/lib/db"
 import { ArrowLeft } from "lucide-react"
+import ImageUploader from "@/components/admin/ImageUploader"
 
 export default async function EditAgencyPage({
   params,
@@ -98,21 +99,15 @@ export default async function EditAgencyPage({
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-slate-600 mb-1.5">Logo / Foto de perfil (URL)</label>
-          <input
-            type="url"
-            name="logoUrl"
-            defaultValue={agency.logoUrl ?? ""}
-            placeholder="https://images.unsplash.com/..."
-            className="w-full px-4 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500"
+          <label className="block text-sm font-medium text-slate-600 mb-1.5">Logo / Foto de perfil</label>
+          <ImageUploader
+            value={agency.logoUrl ?? ""}
+            folder="agencias"
+            label="Subir logo"
+            rounded="full"
+            size={80}
+            inputName="logoUrl"
           />
-          {agency.logoUrl && (
-            <img
-              src={agency.logoUrl}
-              alt="logo preview"
-              className="mt-3 w-20 h-20 rounded-full object-cover border border-gray-200"
-            />
-          )}
         </div>
 
         <div className="flex gap-3 pt-2">
