@@ -40,11 +40,13 @@ export default function AdminMapPicker({ lat, lng, onPick }: AdminMapPickerProps
 
       m.on("click", (e: any) => {
         const { lat: la, lng: ln } = e.latlng
+        const pos: [number, number] = [la, ln]
         if (markerRef.current) {
-          markerRef.current.setLatLng([la, ln])
+          markerRef.current.setLatLng(pos)
         } else {
-          markerRef.current = L.marker([la, ln], { icon: pin }).addTo(m)
+          markerRef.current = L.marker(pos, { icon: pin }).addTo(m)
         }
+        m.panTo(pos)
         onPickRef.current(la, ln)
       })
 
@@ -60,6 +62,19 @@ export default function AdminMapPicker({ lat, lng, onPick }: AdminMapPickerProps
       markerRef.current = null
     }
   }, [])
+
+  // Si las coordenadas iniciales cambian (ej. al cargar otra propiedad), recentrar.
+  useEffect(() => {
+    const m = mapInstance.current
+    if (!m) return
+    if (lat != null && lng != null) {
+      m.setView([lat, lng], m.getZoom())
+      const L = (window as any).L
+      if (markerRef.current) {
+        markerRef.current.setLatLng([lat, lng])
+      }
+    }
+  }, [lat, lng])
 
   return (
     <div className="relative">

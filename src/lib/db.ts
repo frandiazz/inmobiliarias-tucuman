@@ -237,7 +237,10 @@ export async function addProperty(data: any): Promise<any | null> {
     published: data.published ?? true,
   }
   const { data: result, error } = await supabase.from("properties").insert(row).select().single()
-  if (error) { console.error(error); return null }
+  if (error) {
+    console.error("addProperty error:", error.message)
+    return null
+  }
   return result
 }
 
@@ -263,7 +266,13 @@ export async function updateProperty(id: number, data: any): Promise<boolean> {
   if (data.agency !== undefined) row.agency_name = data.agency
 
   const { error } = await supabase.from("properties").update(row).eq("id", id)
-  return !error
+  if (error) {
+    // Columna faltante en la DB suele indicar esquema desactualizado.
+    // Ver https://github.com/.../prisma/migrate_missing_columns.sql
+    console.error("updateProperty error:", error.message)
+    return false
+  }
+  return true
 }
 
 export async function deleteProperty(id: number): Promise<boolean> {
