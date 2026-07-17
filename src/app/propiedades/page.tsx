@@ -5,6 +5,8 @@ import { SlidersHorizontal, X, ArrowUpDown } from "lucide-react"
 import Link from "next/link"
 import Breadcrumbs from "@/components/ui/Breadcrumbs"
 
+export const dynamic = "force-dynamic"
+
 const PAGE_SIZE = 9
 const newCutoff = Date.now() - 7 * 24 * 60 * 60 * 1000
 

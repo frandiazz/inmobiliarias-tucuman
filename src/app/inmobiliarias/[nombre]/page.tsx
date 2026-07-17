@@ -6,6 +6,8 @@ import PropertyCard from "@/components/properties/PropertyCard"
 import Breadcrumbs from "@/components/ui/Breadcrumbs"
 import AgencyAvatar from "@/components/agencies/AgencyAvatar"
 
+export const dynamic = "force-dynamic"
+
 const newCutoff = Date.now() - 7 * 24 * 60 * 60 * 1000
 
 export async function generateMetadata({ params }: { params: Promise<{ nombre: string }> }): Promise<Metadata> {

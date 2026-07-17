@@ -9,6 +9,8 @@ import PropertyCard from "@/components/properties/PropertyCard"
 import ShareButtons from "@/components/properties/ShareButtons"
 import Breadcrumbs from "@/components/ui/Breadcrumbs"
 
+export const dynamic = "force-dynamic"
+
 const fallbackImages = [
   "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?q=80&w=2075&auto=format&fit=crop",
   "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=2070&auto=format&fit=crop",

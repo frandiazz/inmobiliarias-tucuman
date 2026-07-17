@@ -3,6 +3,8 @@ import { getAgencies, getProperties } from "@/lib/db"
 import AgencyCard from "@/components/agencies/AgencyCard"
 import Breadcrumbs from "@/components/ui/Breadcrumbs"
 
+export const dynamic = "force-dynamic"
+
 export const metadata: Metadata = {
   title: "Inmobiliarias en Tucumán",
   description: "Conocé las mejores inmobiliarias de Tucumán. Encontrá la agencia ideal para comprar, vender o alquilar tu propiedad.",
