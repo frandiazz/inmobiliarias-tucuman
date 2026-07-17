@@ -1,4 +1,6 @@
-import Image from "next/image"
+"use client"
+
+import { useState } from "react"
 
 interface AgencyAvatarProps {
   name: string
@@ -15,7 +17,9 @@ export default function AgencyAvatar({ name, logoUrl, size = 80, className = "" 
     .join("")
     .toUpperCase()
 
-  if (logoUrl) {
+  const [broken, setBroken] = useState(false)
+
+  if (logoUrl && !broken) {
     return (
       <div
         className={`relative overflow-hidden rounded-full bg-teal-100 ${className}`}
@@ -26,17 +30,7 @@ export default function AgencyAvatar({ name, logoUrl, size = 80, className = "" 
           src={logoUrl}
           alt={`Logo de ${name}`}
           className="w-full h-full object-cover"
-          onError={(e) => {
-            const el = e.currentTarget
-            el.style.display = "none"
-            const parent = el.parentElement
-            if (parent && !parent.querySelector("span")) {
-              const span = document.createElement("span")
-              span.className = "absolute inset-0 flex items-center justify-center text-2xl font-bold text-teal-800"
-              span.textContent = initials
-              parent.appendChild(span)
-            }
-          }}
+          onError={() => setBroken(true)}
         />
       </div>
     )
