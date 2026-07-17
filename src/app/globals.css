@@ -240,15 +240,6 @@
 }
 
 .heart-btn input {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  opacity: 0;
-  pointer-events: none;
-  appearance: none;
-  -webkit-appearance: none;
-  border: 0;
-  margin: 0;
   display: none;
 }
 
@@ -283,11 +274,11 @@
   fill: var(--heart-red);
 }
 
-.heart-btn input:checked ~ .checkmark .filled {
+.heart-btn.active .checkmark .filled {
   display: block;
 }
 
-.heart-btn input:checked ~ .checkmark .celebrate {
+.heart-btn.active .checkmark .celebrate {
   display: block;
 }
 
