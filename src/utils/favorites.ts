@@ -2,6 +2,7 @@
 
 import { useState, useCallback } from "react"
 import type { Property } from "@/utils/types"
+import { emitStorageChange } from "@/utils/storageEvents"
 
 const STORAGE_KEY = "tucuman-favoritos"
 
@@ -26,6 +27,7 @@ export function useFavorites() {
     setIds((prev) => {
       const next = prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]
       writeIds(next)
+      emitStorageChange()
       return next
     })
   }, [])

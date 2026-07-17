@@ -271,6 +271,21 @@ export async function deleteProperty(id: number): Promise<boolean> {
   return !error
 }
 
+// ── Subscribers (newsletter) ──
+
+export async function addSubscriber(email: string): Promise<"ok" | "exists" | "error"> {
+  if (!email || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) return "error"
+  const { error } = await supabase.from("subscribers").upsert(
+    { email },
+    { onConflict: "email" }
+  )
+  if (error) {
+    console.error(error)
+    return "error"
+  }
+  return "ok"
+}
+
 // ── Mappers ──
 
 function mapAgency(row: any): Agency {

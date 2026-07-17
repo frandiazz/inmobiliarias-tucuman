@@ -1,10 +1,13 @@
-"use client"
-
 import Link from "next/link"
-import { Mountain, Mail, Phone, MapPin, ArrowRight } from "lucide-react"
+import { Mountain, Mail, Phone, MapPin } from "lucide-react"
 import SocialButtons from "@/components/ui/SocialButtons"
+import { siteConfig } from "@/lib/site"
+import { getZones } from "@/lib/db"
+import NewsletterForm from "@/components/layout/NewsletterForm"
 
-export default function Footer() {
+export default async function Footer() {
+  const zones = await getZones()
+
   return (
     <footer className="bg-slate-900 text-slate-300">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
@@ -18,7 +21,13 @@ export default function Footer() {
               El portal inmobiliario que conecta a las mejores agencias de Tucumán
               con quienes buscan su próximo hogar.
             </p>
-            <SocialButtons />
+            <div className="mt-4">
+              <SocialButtons
+                facebook={siteConfig.social.facebook}
+                twitter={siteConfig.social.twitter}
+                instagram={siteConfig.social.instagram}
+              />
+            </div>
           </div>
 
           <div>
@@ -44,18 +53,19 @@ export default function Footer() {
           <div>
             <h3 className="text-white font-semibold mb-4">Zonas</h3>
             <ul className="space-y-3 text-sm">
-              {["Yerba Buena", "Barrio Norte", "Tafí Viejo", "El Corte", "Lomas de Tafí", "San Pablo"].map(
-                (zona) => (
-                  <li key={zona}>
-                    <Link
-                      href={`/propiedades?ubicacion=${encodeURIComponent(zona.toLowerCase())}`}
-                      className="hover:text-white transition-colors link-underline"
-                    >
-                      {zona}
-                    </Link>
-                  </li>
-                )
-              )}
+              {(zones.length > 0
+                ? zones
+                : ["Yerba Buena", "Barrio Norte", "Tafí Viejo", "El Corte", "Lomas de Tafí", "San Pablo"]
+              ).map((zona) => (
+                <li key={zona}>
+                  <Link
+                    href={`/propiedades?ubicacion=${encodeURIComponent(zona.toLowerCase())}`}
+                    className="hover:text-white transition-colors link-underline"
+                  >
+                    {zona}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
 
@@ -64,40 +74,25 @@ export default function Footer() {
             <ul className="space-y-4 text-sm">
               <li className="flex items-start gap-3">
                 <MapPin className="w-4 h-4 mt-0.5 shrink-0 text-teal-400" />
-                <span>San Miguel de Tucumán, Tucumán, Argentina</span>
+                <span>{siteConfig.address}</span>
               </li>
               <li className="flex items-center gap-3">
                 <Phone className="w-4 h-4 shrink-0 text-teal-400" />
-                <a href="tel:+543815555555" className="hover:text-white transition-colors">
-                  381 555-5555
+                <a href={`tel:+${siteConfig.phoneHref}`} className="hover:text-white transition-colors">
+                  {siteConfig.phone}
                 </a>
               </li>
               <li className="flex items-center gap-3">
                 <Mail className="w-4 h-4 shrink-0 text-teal-400" />
-                <a href="mailto:info@tucumaninmuebles.com" className="hover:text-white transition-colors">
-                  info@tucumaninmuebles.com
+                <a href={`mailto:${siteConfig.email}`} className="hover:text-white transition-colors">
+                  {siteConfig.email}
                 </a>
               </li>
             </ul>
 
             <div className="mt-6">
               <h4 className="text-white text-sm font-semibold mb-2">Newsletter</h4>
-              <form
-                onSubmit={(e) => e.preventDefault()}
-                className="flex items-center gap-2"
-              >
-                <input
-                  type="email"
-                  placeholder="tu@email.com"
-                  className="flex-1 px-4 py-3 rounded-xl bg-slate-800 border border-slate-700 text-white text-sm placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-teal-500"
-                />
-                <button
-                  type="submit"
-                  className="p-3 rounded-xl bg-teal-600 hover:bg-teal-700 text-white transition-colors"
-                >
-                  <ArrowRight className="w-4 h-4" />
-                </button>
-              </form>
+              <NewsletterForm />
             </div>
           </div>
         </div>
@@ -111,8 +106,8 @@ export default function Footer() {
               Agencias
             </Link>
             <span>&middot;</span>
-            <Link href="/admin" className="hover:text-white transition-colors">
-              Admin
+            <Link href="/publicar" className="hover:text-white transition-colors">
+              Publicá tu inmobiliaria
             </Link>
           </div>
         </div>

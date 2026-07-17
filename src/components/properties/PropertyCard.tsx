@@ -41,7 +41,7 @@ export default function PropertyCard({ property, isNew }: PropertyCardProps) {
 
       <div className="flex flex-col flex-1 p-5">
         <div className="flex items-center justify-between mb-1">
-          <span className="text-xs text-slate-400">ID #{property.id}</span>
+          <span className="text-xs text-slate-400">{property.zona}</span>
           <CompareCheckbox propertyId={property.id} />
         </div>
         <p className="text-2xl font-bold text-teal-800">{property.price}</p>

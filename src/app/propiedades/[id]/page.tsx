@@ -9,7 +9,7 @@ import PropertyCard from "@/components/properties/PropertyCard"
 import ShareButtons from "@/components/properties/ShareButtons"
 import Breadcrumbs from "@/components/ui/Breadcrumbs"
 
-const extraImages = [
+const fallbackImages = [
   "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?q=80&w=2075&auto=format&fit=crop",
   "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=2070&auto=format&fit=crop",
   "https://images.unsplash.com/photo-1600566753086-00f18fb4b3f2?q=80&w=2070&auto=format&fit=crop",
@@ -22,10 +22,14 @@ const extraImages = [
 
 const newCutoff = Date.now() - 7 * 24 * 60 * 60 * 1000
 
-function getGalleryImages(propertyImage: string): string[] {
-  const others = extraImages.filter((img) => img !== propertyImage)
-  const shuffled = others.sort(() => Math.random() - 0.5)
-  return [propertyImage, ...shuffled.slice(0, 7)]
+function getGalleryImages(property: { image: string; images?: string[] | null }): string[] {
+  const real = (property.images ?? []).filter(Boolean)
+  if (real.length > 0) {
+    const unique = Array.from(new Set([property.image, ...real]))
+    return unique.slice(0, 8)
+  }
+  const others = fallbackImages.filter((img) => img !== property.image).slice(0, 7)
+  return [property.image, ...others]
 }
 
 export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
@@ -53,7 +57,7 @@ export default async function PropertyDetail({
   if (!property) notFound()
 
   const agency = await getAgencyById(property.agencyId)
-  const images = getGalleryImages(property.image)
+  const images = getGalleryImages(property)
 
   const allProperties = await getProperties()
   const similares = allProperties
@@ -134,7 +138,7 @@ export default async function PropertyDetail({
               </h2>
               <p className="text-slate-600 leading-relaxed">
                 {property.description ??
-                  `Hermosa propiedad ubicada en ${property.zona}, una de las zonas más exclusivas de Tucumán. Cuenta con excelente iluminación natural, terminaciones de primera calidad y una distribución funcional pensada para el confort familiar. La propiedad se encuentra en óptimo estado de conservación y lista para habitar. Cercana a centros comerciales, colegios, hospitales y con fácil acceso a las principales vías de comunicación de la ciudad. Ideal tanto para inversión como para vivienda permanente. Se aceptan consultas y visitas sin compromiso.`}
+                  `Propiedad en ${property.zona}, Tucumán. ${property.operation} de ${property.tipo} con ${property.beds} dormitorios, ${property.baths} baños y ${property.area}m². Contactá con la agencia para más detalles y coordinar una visita.`}
               </p>
             </section>
 

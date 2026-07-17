@@ -1,7 +1,8 @@
 import type { Metadata } from "next"
 import Hero from "@/components/home/Hero"
 import FeaturedProperties from "@/components/home/FeaturedProperties"
-import { getPropertiesCount, getAgenciesCount } from "@/lib/db"
+import { ComoFunciona, PorQueElegirnos, CtaAgencias, ZonasDestacadas } from "@/components/home/HomeSections"
+import { getPropertiesCount, getAgenciesCount, getZones } from "@/lib/db"
 
 export const metadata: Metadata = {
   title: "Tucumán Inmuebles | Portal Inmobiliario de Tucumán",
@@ -15,15 +16,20 @@ export const metadata: Metadata = {
 }
 
 export default async function Home() {
-  const [totalProps, totalAgencies] = await Promise.all([
+  const [totalProps, totalAgencies, zonas] = await Promise.all([
     getPropertiesCount(),
     getAgenciesCount(),
+    getZones(),
   ])
 
   return (
     <>
-      <Hero totalProps={totalProps} totalAgencies={totalAgencies} />
+      <Hero totalProps={totalProps} totalAgencies={totalAgencies} zonas={zonas} />
       <FeaturedProperties />
+      <ComoFunciona />
+      <ZonasDestacadas />
+      <PorQueElegirnos totalAgencies={totalAgencies} totalZonas={zonas.length || 6} />
+      <CtaAgencias />
     </>
   )
 }

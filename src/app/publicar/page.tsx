@@ -1,8 +1,14 @@
-"use client"
-
+import type { Metadata } from "next"
 import Link from "next/link"
 import { ArrowRight, Building2, TrendingUp, Users, BarChart3, Smartphone } from "lucide-react"
 import FlipCard from "@/components/ui/FlipCard"
+import { getAgencies } from "@/lib/db"
+import { siteConfig } from "@/lib/site"
+
+export const metadata: Metadata = {
+  title: "Publicá tu inmobiliaria | Tucumán Inmuebles",
+  description: "Sumate al portal inmobiliario N°1 de Tucumán y dale visibilidad a tus propiedades.",
+}
 
 const beneficios = [
   {
@@ -32,20 +38,9 @@ const beneficios = [
   },
 ]
 
-const agencias = [
-  "Inmobiliaria Aconquija",
-  "Tucumán Propiedades",
-  "Norte Raíces",
-  "San Miguel Inmuebles",
-  "Citrus Propiedades",
-  "Lomas Negocio Inmobiliario",
-  "Sierras del Norte",
-  "Portal Inmobiliario Tucumán",
-  "Alto Verde Propiedades",
-  "Soler Bienes Raíces",
-]
+export default async function PublicarPage() {
+  const agencies = await getAgencies()
 
-export default function PublicarPage() {
   return (
     <main className="min-h-screen bg-white">
       <section className="relative bg-gradient-to-br from-teal-800 via-teal-700 to-teal-900 overflow-hidden">
@@ -55,7 +50,7 @@ export default function PublicarPage() {
         </div>
         <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-20 md:py-32">
           <div className="max-w-3xl">
-              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-teal-500/20 text-teal-200 text-sm font-medium mb-6">
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-teal-500/20 text-teal-200 text-sm font-medium mb-6">
               <Building2 className="w-4 h-4" />
               Portal Tucumán Inmuebles
             </span>
@@ -67,7 +62,7 @@ export default function PublicarPage() {
             </p>
             <div className="mt-8 flex flex-col sm:flex-row gap-4">
               <a
-                href="tel:+543815555555"
+                href={`tel:+${siteConfig.phoneHref}`}
                 className="btn-pill text-base shadow-xl"
               >
                 Consultanos sin compromiso
@@ -100,26 +95,28 @@ export default function PublicarPage() {
         </div>
       </section>
 
-      <section className="py-16 bg-white border-y border-gray-100 reveal-on-scroll">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <p className="text-center text-sm font-semibold text-slate-400 uppercase tracking-wider mb-8">
-            Ya forman parte del portal
-          </p>
-          <div className="flex flex-wrap justify-center gap-x-12 gap-y-6">
-            {agencias.map((a) => {
-              const initials = a.split(" ").map((w) => w[0]).slice(0, 2).join("")
-              return (
-                <div key={a} className="flex items-center gap-2 text-slate-500">
-                  <div className="w-8 h-8 rounded-full bg-teal-100 flex items-center justify-center">
-                    <span className="text-xs font-bold text-teal-800">{initials}</span>
+      {agencies.length > 0 && (
+        <section className="py-16 bg-white border-y border-gray-100 reveal-on-scroll">
+          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <p className="text-center text-sm font-semibold text-slate-400 uppercase tracking-wider mb-8">
+              Ya forman parte del portal
+            </p>
+            <div className="flex flex-wrap justify-center gap-x-12 gap-y-6">
+              {agencies.map((a) => {
+                const initials = a.name.split(" ").map((w) => w[0]).slice(0, 2).join("")
+                return (
+                  <div key={a.id} className="flex items-center gap-2 text-slate-500">
+                    <div className="w-8 h-8 rounded-full bg-teal-100 flex items-center justify-center">
+                      <span className="text-xs font-bold text-teal-800">{initials}</span>
+                    </div>
+                    <span className="text-sm font-medium">{a.name}</span>
                   </div>
-                  <span className="text-sm font-medium">{a}</span>
-                </div>
-              )
-            })}
+                )
+              })}
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      )}
 
       <section className="py-20 bg-slate-900 text-center reveal-on-scroll">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -128,12 +125,12 @@ export default function PublicarPage() {
             Contactanos y te contamos todo sin compromiso.
           </p>
           <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-6 text-white/80">
-            <a href="tel:+543815555555" className="text-lg hover:text-white transition-colors">
-              📞 381 555-5555
+            <a href={`tel:+${siteConfig.phoneHref}`} className="text-lg hover:text-white transition-colors">
+              📞 {siteConfig.phone}
             </a>
             <span className="hidden sm:inline text-slate-600">|</span>
-            <a href="mailto:info@tucumaninmuebles.com" className="text-lg hover:text-white transition-colors">
-              ✉️ info@tucumaninmuebles.com
+            <a href={`mailto:${siteConfig.email}`} className="text-lg hover:text-white transition-colors">
+              ✉️ {siteConfig.email}
             </a>
           </div>
           <p className="mt-6">

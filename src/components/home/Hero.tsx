@@ -1,4 +1,4 @@
-import { Search, Building2, Home } from "lucide-react"
+import { Search, Building2, Home, ChevronDown } from "lucide-react"
 import RadioTabs from "@/components/ui/RadioTabs"
 import HeroBackground from "./HeroBackground"
 
@@ -7,14 +7,16 @@ const operaciones = [
   { value: "alquiler", label: "Alquiler" },
 ]
 const tipos = ["Casa", "Departamento", "Dúplex", "Terreno"]
-const ubicaciones = ["Yerba Buena", "Barrio Norte", "Barrio Sur", "Tafí Viejo", "El Corte", "Lomas de Tafí", "San Pablo"]
+const ubicacionesDefault = ["Yerba Buena", "Barrio Norte", "Barrio Sur", "Tafí Viejo", "El Corte", "Lomas de Tafí", "San Pablo"]
 
 interface HeroProps {
   totalProps: number
   totalAgencies: number
+  zonas?: string[]
 }
 
-export default function Hero({ totalProps, totalAgencies }: HeroProps) {
+export default function Hero({ totalProps, totalAgencies, zonas }: HeroProps) {
+  const ubicaciones = zonas && zonas.length > 0 ? zonas : ubicacionesDefault
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "RealEstateAgent",
@@ -63,31 +65,37 @@ export default function Hero({ totalProps, totalAgencies }: HeroProps) {
               <RadioTabs name="operacion" options={operaciones} defaultValue="venta" />
             </div>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-              <select
-                name="tipo"
-                defaultValue=""
-                className="w-full px-4 py-3.5 rounded-xl border border-gray-200 bg-white text-slate-700 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent cursor-pointer appearance-none"
-              >
-                <option value="">Tipo</option>
-                {tipos.map((t) => (
-                  <option key={t} value={t.toLowerCase()}>
-                    {t}
-                  </option>
-                ))}
-              </select>
+              <div className="relative">
+                <select
+                  name="tipo"
+                  defaultValue=""
+                  className="w-full px-4 py-3.5 rounded-xl border border-gray-200 bg-white text-slate-700 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent cursor-pointer appearance-none pr-10"
+                >
+                  <option value="">Tipo</option>
+                  {tipos.map((t) => (
+                    <option key={t} value={t.toLowerCase()}>
+                      {t}
+                    </option>
+                  ))}
+                </select>
+                <ChevronDown className="w-4 h-4 absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none" />
+              </div>
 
-              <select
-                name="ubicacion"
-                defaultValue=""
-                className="w-full px-4 py-3.5 rounded-xl border border-gray-200 bg-white text-slate-700 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent cursor-pointer appearance-none"
-              >
-                <option value="">Ubicación</option>
-                {ubicaciones.map((u) => (
-                  <option key={u} value={u.toLowerCase()}>
-                    {u}
-                  </option>
-                ))}
-              </select>
+              <div className="relative">
+                <select
+                  name="ubicacion"
+                  defaultValue=""
+                  className="w-full px-4 py-3.5 rounded-xl border border-gray-200 bg-white text-slate-700 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent cursor-pointer appearance-none pr-10"
+                >
+                  <option value="">Ubicación</option>
+                  {ubicaciones.map((u) => (
+                    <option key={u} value={u.toLowerCase()}>
+                      {u}
+                    </option>
+                  ))}
+                </select>
+                <ChevronDown className="w-4 h-4 absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none" />
+              </div>
 
               <button
                 type="submit"

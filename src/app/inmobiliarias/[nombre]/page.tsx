@@ -7,19 +7,6 @@ import Breadcrumbs from "@/components/ui/Breadcrumbs"
 
 const newCutoff = Date.now() - 7 * 24 * 60 * 60 * 1000
 
-const agencyLogos: Record<string, string> = {
-  "Inmobiliaria Aconquija": "IA",
-  "Tucumán Propiedades": "TP",
-  "Norte Raíces": "NR",
-  "San Miguel Inmuebles": "SM",
-  "Citrus Propiedades": "CP",
-  "Lomas Negocio Inmobiliario": "LN",
-  "Sierras del Norte": "SN",
-  "Portal Inmobiliario Tucumán": "PI",
-  "Alto Verde Propiedades": "AV",
-  "Soler Bienes Raíces": "SB",
-}
-
 export async function generateMetadata({ params }: { params: Promise<{ nombre: string }> }): Promise<Metadata> {
   const { nombre } = await params
   const name = decodeURIComponent(nombre)
@@ -47,7 +34,7 @@ export default async function AgencyPage({
 
   const properties = await getPropertiesByAgency(agency.id)
 
-  const initials = agencyLogos[name] ?? name
+  const initials = name
     .split(" ")
     .map((w) => w[0])
     .slice(0, 2)

@@ -43,7 +43,8 @@ export default async function PropiedadesPage({
   const pagina = typeof params.pagina === "string" ? Math.max(1, Number(params.pagina)) : 1
 
   const allProperties = await getProperties()
-  let filtered = [...allProperties]
+  const published = allProperties.filter((p) => p.published !== false)
+  let filtered = [...published]
 
   if (operacion) {
     filtered = filtered.filter((p) => p.operation.toLowerCase() === operacion)

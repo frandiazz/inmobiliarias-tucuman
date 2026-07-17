@@ -2,6 +2,7 @@
 
 import { useState, useCallback, useEffect } from "react"
 import type { Property } from "@/utils/types"
+import { emitStorageChange } from "@/utils/storageEvents"
 
 const STORAGE_KEY = "tucuman-comparar"
 const MAX_COMPARE = 4
@@ -25,6 +26,7 @@ export function useCompare() {
 
   useEffect(() => {
     writeIds(ids)
+    emitStorageChange()
   }, [ids])
 
   const toggle = useCallback((id: number) => {

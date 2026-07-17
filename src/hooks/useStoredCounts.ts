@@ -1,6 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
+import { STORAGE_CHANGE_EVENT } from "@/utils/storageEvents"
 
 function readIds(key: string): number[] {
   if (typeof window === "undefined") return []
@@ -22,11 +23,11 @@ export function useStoredCounts() {
       setCompare(readIds("tucuman-comparar").length)
     }
     update()
+    window.addEventListener(STORAGE_CHANGE_EVENT, update)
     window.addEventListener("storage", update)
-    const interval = setInterval(update, 500)
     return () => {
+      window.removeEventListener(STORAGE_CHANGE_EVENT, update)
       window.removeEventListener("storage", update)
-      clearInterval(interval)
     }
   }, [])
 
